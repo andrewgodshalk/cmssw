@@ -307,7 +307,8 @@ VHbb = cfg.Analyzer(
     higgsJetsPreSelection = lambda x: (( x.puJetId() > 0 and x.jetID('POG_PFID_Loose')) or abs(x.eta())>3.0 ) and x.pt() >  20 ,
     higgsJetsPreSelectionVBF = lambda x: x.pt() >  20 ,
 #    higgsJetsPreSelectionVBF = lambda x: (( x.puJetId() > 0 and x.jetID('POG_PFID_Loose')) or abs(x.eta())>3.0 ) and x.pt() >  20,
-    passall=False,
+    passall=True,
+#    passall=False,
     doSoftActivityVH=True,
     doVBF=True,
     regressions = [
@@ -418,7 +419,8 @@ sample = cfg.MCComponent(
 		#"045996FE-A19D-E511-B76D-D4AE526A0B47.root" ##ttbar
 		#"/scratch/bianchi/004CB067-8DBD-E511-B0FB-047D7B881D3A.root"
 #		"027D7153-29BF-E511-A2BC-0025B3E025B6.root"
-		"root://xrootd.ba.infn.it//store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/60000/027D7153-29BF-E511-A2BC-0025B3E025B6.root"
+                 "root://cmsxrootd.fnal.gov://store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12-v1/70000/002ABFCA-A0B9-E511-B9BA-0CC47A57CD6A.root",
+#		"root://xrootd.ba.infn.it//store/mc/RunIIFall15MiniAODv2/DYJetsToLL_M-100to200_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PU25nsData2015v1_76X_mcRun2_asymptotic_v12_ext1-v1/60000/027D7153-29BF-E511-A2BC-0025B3E025B6.root"
 		],
     #files = ["226BB247-A565-E411-91CF-00266CFF0AF4.root"],
     name="ZHLL125", isEmbed=False,
