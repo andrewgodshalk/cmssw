@@ -31,6 +31,7 @@ cd VHbbAnalysis/Heppy/test
 python vhbb_combined.py
 
 # To run over crab...
+- First mess with crab/heppy_crab_config.py to set up your own outLFNDirBase for output storage on EOS
 cd crab
 source /cvmfs/cms.cern.ch/crab3/crab.sh
 voms-proxy-init --voms cms --valid 168:00

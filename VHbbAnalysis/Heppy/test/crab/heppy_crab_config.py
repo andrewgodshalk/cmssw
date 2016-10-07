@@ -2,8 +2,10 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'VHBB_V21bis_001'
-config.General.workArea = 'crab_projects_V21bis_001'
+config.General.requestName = 'VHBB_ZPJ'
+config.General.workArea = 'crab_projects_zpj_2016-10'
+#config.General.requestName = 'VHBB_V21bis_001'
+#config.General.workArea = 'crab_projects_V21bis_001'
 config.General.transferLogs=True
 
 config.section_("JobType")
@@ -32,19 +34,23 @@ config.JobType.inputFiles = ['heppy_config.py',
                               "../ttbar-fall15_TargetGenOverPt_GenPtCut0.weights.xml",
 										'../TMVA_blikelihood_vbf_cmssw76_h21trained.weights.xml'
 ]
-#config.JobType.outputFiles = ['tree.root']
+config.JobType.outputFiles = ['tree.root']
 
 config.section_("Data")
 config.Data.inputDataset = '/ZH_HToBB_ZToLL_M125_13TeV_amcatnloFXFX_madspin_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
-config.Data.unitsPerJob = 1
+#A config.Data.unitsPerJob = 1
+config.Data.unitsPerJob = 5
 #config.Data.totalUnits = -1
-config.Data.outLFNDirBase = '/store/user/perrozzi/VHBBHeppyV21bis/'
-config.Data.publication = True
-config.Data.outputDatasetTag = 'VHBB_HEPPY_V21bis'
+#A config.Data.outLFNDirBase = '/store/user/perrozzi/VHBBHeppyV21bis/'
+config.Data.outLFNDirBase = '/store/user/leptonjets/noreplica/godshalk/2016-10_ZJNtuples2015_/crab_output'
+#A config.Data.publication = True
+config.Data.publication = False
+config.Data.outputDatasetTag = 'ZPJ_2015'
 
 config.section_("Site")
-config.Site.storageSite = "T3_CH_PSI"
+#A config.Site.storageSite = "T3_CH_PSI"
+config.Site.storageSite = "T3_US_FNALLPC"
 
 #config.Data.ignoreLocality = True

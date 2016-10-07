@@ -12,7 +12,8 @@ sample.isData=True
 from vhbb_combined import *
 sample.json="json.txt"
 sample.files=[
-"root://xrootd.ba.infn.it//store/data/Run2015D/BTagCSV/MINIAOD/16Dec2015-v1/50000/00AF8EB4-70AB-E511-9271-00266CFAE7AC.root"
+#"root://xrootd.ba.infn.it//store/data/Run2015D/BTagCSV/MINIAOD/16Dec2015-v1/50000/00AF8EB4-70AB-E511-9271-00266CFAE7AC.root"
+root://cmsxrootd.fnal.gov//store/data/Run2015D/BTagCSV/MINIAOD/16Dec2015-v1/50000/00AF8EB4-70AB-E511-9271-00266CFAE7AC.root
 ]
 
 TriggerObjectsAna.triggerObjectInputTag = ('selectedPatTrigger','','RECO')
