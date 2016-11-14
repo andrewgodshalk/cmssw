@@ -2,8 +2,9 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'VHBB_HEPPY_D24_002'
-config.General.workArea = 'crab_projects_D24_002'
+config.General.requestName = 'ZC2016_11_Run2016'
+config.General.workArea = 'crab_projects_ZC2016_11_Run2016'
+
 config.General.transferLogs=True
 
 config.section_("JobType")
@@ -22,6 +23,7 @@ config.JobType.inputFiles = ['heppy_config.py',
                              'combined_cmssw.py',
                              '../vhbb.py',
                              '../vhbb_combined.py',
+#                             '../vhbb_combined_data.py',
                              '../TMVA_blikelihood_vbf_cmssw76.weights.xml',
                              'TMVAClassification_BDT.weights.xml',
                              'puData.root',
@@ -50,14 +52,16 @@ config.Data.inputDBS = 'global'
 config.Data.splitting = 'LumiBased'
 #config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 20
-config.Data.totalUnits = 1
-config.Data.outLFNDirBase = '/store/user/arizzi/VHBBHeppyD24/'
-config.Data.publication = True
-config.Data.outputDatasetTag = 'VHBB_HEPPY_D24'
+#config.Data.totalUnits = 1
+config.Data.outLFNDirBase = '/store/group/leptonjets/noreplica/godshalk/2016-11_ZJNtuples2016_/crab_output'
+config.Data.publication = False
+config.Data.outputDatasetTag = 'ZC2016_11_Run2016'
+
 #only for data
 #config.Data.lumiMask = 'json.txt'
 
 config.section_("Site")
-config.Site.storageSite = "T2_IT_Pisa"
+config.Site.storageSite = "T3_US_FNALLPC"
+
 
 #config.Data.ignoreLocality = True
