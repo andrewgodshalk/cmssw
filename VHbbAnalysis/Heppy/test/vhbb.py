@@ -9,7 +9,7 @@ from DataFormats.FWLite import *
 import PhysicsTools.HeppyCore.framework.config as cfg
 from VHbbAnalysis.Heppy.vhbbobj import *
 from PhysicsTools.HeppyCore.utils.deltar import deltaPhi
-from PhysicsTools.Heppy.analyzers.core.AutoFillTreeProducer  import * 
+from PhysicsTools.Heppy.analyzers.core.AutoFillTreeProducer  import *
 
 
 import logging
@@ -20,9 +20,9 @@ import os
 cfg.Analyzer.nosubdir = True
 
 treeProducer= cfg.Analyzer(
-	class_object=AutoFillTreeProducer, 
+	class_object=AutoFillTreeProducer,
 	defaultFloatType = "F",
-	verbose=False, 
+	verbose=False,
 	vectorTree = True,
         globalVariables	= [
                  NTupleVariable("puWeightUp", lambda ev : getattr(ev,"puWeightPlus",1.), help="Pileup up variation",mcOnly=True),
@@ -43,7 +43,7 @@ treeProducer= cfg.Analyzer(
 		 NTupleVariable("rhoN",  lambda ev: ev.rhoN, float, help="rho with neutrals only"),
 		 NTupleVariable("rhoCHPU",  lambda ev: ev.rhoCHPU, float, help="rho with charged pileup particles"),
 		 NTupleVariable("rhoCentral",  lambda ev: ev.rho, float, help="rho central"),
-          
+
 		 NTupleVariable("deltaR_jj",  lambda ev: deltaR(ev.hJets[0].eta(),ev.hJets[0].phi(),ev.hJets[1].eta(),ev.hJets[1].phi()) if len(ev.hJets) > 1 else -1, float, help="deltaR higgsJets"),
 		 NTupleVariable("lheNj",  lambda ev: ev.lheNj, float,mcOnly=True, help="number of jets at LHE level"),
                  NTupleVariable("lheNb",  lambda ev: ev.lheNb, float,mcOnly=True, help="number of b-jets at LHE level"),
@@ -53,7 +53,7 @@ treeProducer= cfg.Analyzer(
 		 NTupleVariable("lheV_pt",  lambda ev: ev.lheV_pt, float,mcOnly=True, help="Vector pT at LHE level"),
                  NTupleVariable("lheHT",  lambda ev: ev.lheHT, float,mcOnly=True, help="HT at LHE level"),
                  #NTupleVariable("LHE_originalWeight",  lambda ev: ev.LHE_originalWeight, float, mcOnly=True, help="LHE original weight (for normalisation of LHE_weights)"),
-                 NTupleVariable("genTTHtoTauTauDecayMode", lambda ev: ev.genTTHtoTauTauDecayMode, int,mcOnly=True, help="gen level ttH, H -> tautau decay mode"),        		 
+#                 NTupleVariable("genTTHtoTauTauDecayMode", lambda ev: ev.genTTHtoTauTauDecayMode, int,mcOnly=True, help="gen level ttH, H -> tautau decay mode"),
 		#Soft Activity vars
 #                 NTupleVariable("totSoftActivityJets2", lambda ev: len([ x for x in ev.softActivityJets if x.pt()> 2 ] ), int, help="number of jets from soft activity with pt>2Gev"),
  #                NTupleVariable("totSoftActivityJets5", lambda ev: len([ x for x in ev.softActivityJets if x.pt()> 5 ] ), int, help="number of jets from soft activity with pt>5Gev"),
@@ -82,39 +82,39 @@ treeProducer= cfg.Analyzer(
 #		 NTupleVariable("Flag_hbheIsoFilter",  lambda ev : ev.hbheFilterIso, help="hbheFilterIso, after rerun"),
 #		 NTupleVariable("Flag_hbheFilterNew",  lambda ev : ev.hbheFilterNew, help="hbheFilterIso, after rerun"),
 		 NTupleVariable("simPrimaryVertex_z", lambda ev: ev.genvertex, float,mcOnly=True, help="z coordinate of the simulated primary vertex"),
-		 NTupleVariable("genHiggsDecayMode", lambda ev: ev.genHiggsDecayMode, float, mcOnly=True, help="decay mode of the Higgs boson"),
+#		 NTupleVariable("genHiggsDecayMode", lambda ev: ev.genHiggsDecayMode, float, mcOnly=True, help="decay mode of the Higgs boson"),
 		 NTupleVariable("triggerEmulationWeight", lambda ev: ev.triggerEmulationWeight, float, mcOnly=True, help="Emulates SL/DL triggers"),
 	],
 	globalObjects = {
           "met"    : NTupleObject("met",     metType, help="PF E_{T}^{miss}, after default type 1 corrections"),
           "fakeMET"    : NTupleObject("fakeMET", fourVectorType, help="fake MET in Zmumu event obtained removing the muons"),
-          "H"    : NTupleObject("H", fourVectorType, help="higgs"),
-          "H_reg"    : NTupleObject("H_reg", fourVectorType, help="regressed higgs"),
-          "H_reg_corrJECUp"    : NTupleObject("H_reg_corrJECUp", fourVectorType, help="regressed higgs for JECUp"),
-          "H_reg_corrJECDown"    : NTupleObject("H_reg_corrJECDown", fourVectorType, help="regressed higgs for JECDown"),
-          "H_reg_corrJERUp"    : NTupleObject("H_reg_corrJERUp", fourVectorType, help="regressed higgs for JERUp"),
-          "H_reg_corrJERDown"    : NTupleObject("H_reg_corrJERDown", fourVectorType, help="regressed higgs for JERDown"),
-	  "HCSV"    : NTupleObject("HCSV", fourVectorType, help="higgs CSV selection"),
-	  "HCSV_reg"    : NTupleObject("HCSV_reg", fourVectorType, help="regresses higgs CSV selection"),
-          "HCSV_reg_corrJECUp"    : NTupleObject("HCSV_reg_corrJECUp", fourVectorType, help="reg_corrresses higgs for JECUp CSV selection"),
-          "HCSV_reg_corrJECDown"    : NTupleObject("HCSV_reg_corrJECDown", fourVectorType, help="reg_corrresses higgs for JECDown CSV selection"),
-          "HCSV_reg_corrJERUp"    : NTupleObject("HCSV_reg_corrJERUp", fourVectorType, help="reg_corrresses higgs for JERUp CSV selection"),
-          "HCSV_reg_corrJERDown"    : NTupleObject("HCSV_reg_corrJERDown", fourVectorType, help="regressed higgs for JERDown CSV selection"),
-	  "HCMVAV2"    : NTupleObject("HCMVAV2", fourVectorType, help="higgs CMVAV2 selection"),
-	  "HCMVAV2_reg"    : NTupleObject("HCMVAV2_reg", fourVectorType, help="regresses higgs CMVAV2 selection"),
-          "HCMVAV2_reg_corrJECUp"    : NTupleObject("HCMVAV2_reg_corrJECUp", fourVectorType, help="reg_corrresses higgs for JECUp CMVAV2 selection"),
-          "HCMVAV2_reg_corrJECDown"    : NTupleObject("HCMVAV2_reg_corrJECDown", fourVectorType, help="reg_corrresses higgs for JECDown CMVAV2 selection"),
-          "HCMVAV2_reg_corrJERUp"    : NTupleObject("HCMVAV2_reg_corrJERUp", fourVectorType, help="reg_corrresses higgs for JERUp CMVAV2 selection"),
-          "HCMVAV2_reg_corrJERDown"    : NTupleObject("HCMVAV2_reg_corrJERDown", fourVectorType, help="regressed higgs for JERDown CMVAV2 selection"),
-          "HaddJetsdR08"    : NTupleObject("HaddJetsdR08", fourVectorType, help="higgs with cen jets added if dR<0.8 from hJetsCSV selection"),
+        #   "H"    : NTupleObject("H", fourVectorType, help="higgs"),
+        #   "H_reg"    : NTupleObject("H_reg", fourVectorType, help="regressed higgs"),
+        #   "H_reg_corrJECUp"    : NTupleObject("H_reg_corrJECUp", fourVectorType, help="regressed higgs for JECUp"),
+        #   "H_reg_corrJECDown"    : NTupleObject("H_reg_corrJECDown", fourVectorType, help="regressed higgs for JECDown"),
+        #   "H_reg_corrJERUp"    : NTupleObject("H_reg_corrJERUp", fourVectorType, help="regressed higgs for JERUp"),
+        #   "H_reg_corrJERDown"    : NTupleObject("H_reg_corrJERDown", fourVectorType, help="regressed higgs for JERDown"),
+	#   "HCSV"    : NTupleObject("HCSV", fourVectorType, help="higgs CSV selection"),
+	#   "HCSV_reg"    : NTupleObject("HCSV_reg", fourVectorType, help="regresses higgs CSV selection"),
+        #   "HCSV_reg_corrJECUp"    : NTupleObject("HCSV_reg_corrJECUp", fourVectorType, help="reg_corrresses higgs for JECUp CSV selection"),
+        #   "HCSV_reg_corrJECDown"    : NTupleObject("HCSV_reg_corrJECDown", fourVectorType, help="reg_corrresses higgs for JECDown CSV selection"),
+        #   "HCSV_reg_corrJERUp"    : NTupleObject("HCSV_reg_corrJERUp", fourVectorType, help="reg_corrresses higgs for JERUp CSV selection"),
+        #   "HCSV_reg_corrJERDown"    : NTupleObject("HCSV_reg_corrJERDown", fourVectorType, help="regressed higgs for JERDown CSV selection"),
+	#   "HCMVAV2"    : NTupleObject("HCMVAV2", fourVectorType, help="higgs CMVAV2 selection"),
+	#   "HCMVAV2_reg"    : NTupleObject("HCMVAV2_reg", fourVectorType, help="regresses higgs CMVAV2 selection"),
+        #   "HCMVAV2_reg_corrJECUp"    : NTupleObject("HCMVAV2_reg_corrJECUp", fourVectorType, help="reg_corrresses higgs for JECUp CMVAV2 selection"),
+        #   "HCMVAV2_reg_corrJECDown"    : NTupleObject("HCMVAV2_reg_corrJECDown", fourVectorType, help="reg_corrresses higgs for JECDown CMVAV2 selection"),
+        #   "HCMVAV2_reg_corrJERUp"    : NTupleObject("HCMVAV2_reg_corrJERUp", fourVectorType, help="reg_corrresses higgs for JERUp CMVAV2 selection"),
+        #   "HCMVAV2_reg_corrJERDown"    : NTupleObject("HCMVAV2_reg_corrJERDown", fourVectorType, help="regressed higgs for JERDown CMVAV2 selection"),
+        #   "HaddJetsdR08"    : NTupleObject("HaddJetsdR08", fourVectorType, help="higgs with cen jets added if dR<0.8 from hJetsCSV selection"),
           "V"    : NTupleObject("V", fourVectorType, help="z or w"),
-          "softActivityJets"    : NTupleObject("softActivity", softActivityType, help="VBF soft activity variables"),
-          "softActivityVHJets"    : NTupleObject("softActivityVH", softActivityType, help="VH soft activity variables"),
-          "l1MET"       : NTupleObject("l1MET",   twoVectorType , help="Stage-2 L1 trigger MET", mcOnly=False),        
+#          "softActivityJets"    : NTupleObject("softActivity", softActivityType, help="VBF soft activity variables"),
+#          "softActivityVHJets"    : NTupleObject("softActivityVH", softActivityType, help="VH soft activity variables"),
+          "l1MET"       : NTupleObject("l1MET",   twoVectorType , help="Stage-2 L1 trigger MET", mcOnly=False),
        #   "l1MET2"       : NTupleObject("l1MET2",   twoVectorType , help="Stage-2 L1 trigger MET", mcOnly=False),   #l1MET2 is defined in "l1t::EtSum" but it is empty
-          "l1MHT"       : NTupleObject("l1MHT",   twoVectorType , help="Stage-2 L1 trigger MHT", mcOnly=False),        
-          "l1ET"       : NTupleObject("l1ET",   twoVectorType , help="Stage-2 L1 trigger ET", mcOnly=False),        
-          "l1HT"       : NTupleObject("l1HT",   twoVectorType , help="Stage-2 L1 trigger HT", mcOnly=False),      
+          "l1MHT"       : NTupleObject("l1MHT",   twoVectorType , help="Stage-2 L1 trigger MHT", mcOnly=False),
+          "l1ET"       : NTupleObject("l1ET",   twoVectorType , help="Stage-2 L1 trigger ET", mcOnly=False),
+          "l1HT"       : NTupleObject("l1HT",   twoVectorType , help="Stage-2 L1 trigger HT", mcOnly=False),
         },
 	collections = {
 		#standard dumping of objects
@@ -126,33 +126,33 @@ treeProducer= cfg.Analyzer(
 # now store only indices, this lines are left commented for possible debugging
 #	        "hJets"       : NTupleCollection("hJets",     jetTypeVHbb, 8, sortDescendingBy = lambda jet : jet.btag('combinedSecondaryVertexBJetTags'),help="Higgs jets"),
 #	        "aJets"       : NTupleCollection("aJets",     jetTypeVHbb, 8, sortDescendingBy = lambda jet : jet.btag('combinedSecondaryVertexBJetTags'),help="Additional jets"),
-                "hjidx"       : NTupleCollection("hJidx",    objectInt, 2,help="Higgs jet indices"),
-                "hjidxDiJetPtByCSV"       : NTupleCollection("hJidx_sortcsv",    objectInt, 2,help="Higgs jet indices within hJets with CSV sorting "),
-                "ajidx"       : NTupleCollection("aJidx",    objectInt, 8,help="additional jet indices"),
-                "hjidxCSV"       : NTupleCollection("hJCidx",    objectInt, 2,help="Higgs jet indices CSV"),
-                "ajidxCSV"       : NTupleCollection("aJCidx",    objectInt, 8,help="additional jet indices CSV"),
-                "hjidxCMVAV2"       : NTupleCollection("hJCMVAV2idx",    objectInt, 2,help="Higgs jet indices CMVAV2"),
-                "ajidxCMVAV2"       : NTupleCollection("aJCMVAV2idx",    objectInt, 8,help="additional jet indices CMVAV2"),
+                # "hjidx"       : NTupleCollection("hJidx",    objectInt, 2,help="Higgs jet indices"),
+                # "hjidxDiJetPtByCSV"       : NTupleCollection("hJidx_sortcsv",    objectInt, 2,help="Higgs jet indices within hJets with CSV sorting "),
+                # "ajidx"       : NTupleCollection("aJidx",    objectInt, 8,help="additional jet indices"),
+                # "hjidxCSV"       : NTupleCollection("hJCidx",    objectInt, 2,help="Higgs jet indices CSV"),
+                # "ajidxCSV"       : NTupleCollection("aJCidx",    objectInt, 8,help="additional jet indices CSV"),
+                # "hjidxCMVAV2"       : NTupleCollection("hJCMVAV2idx",    objectInt, 2,help="Higgs jet indices CMVAV2"),
+                # "ajidxCMVAV2"       : NTupleCollection("aJCMVAV2idx",    objectInt, 8,help="additional jet indices CMVAV2"),
                 "cleanJetsAll"       : NTupleCollection("Jet",     jetTypeVHbb, 25, help="Cental+fwd jets after full selection and cleaning, sorted by b-tag"),
-                "hjidxaddJetsdR08"       : NTupleCollection("hjidxaddJetsdR08",    objectInt, 5,help="Higgs jet indices with Higgs formed adding cen jets if dR<0.8 from hJetsCSV"),
-                "ajidxaddJetsdR08"       : NTupleCollection("ajidxaddJetsdR08",    objectInt, 8,help="additional jet indices with Higgs formed adding cen jets if dR<0.8 from hJetsCSV"),
-		"dRaddJetsdR08"       : NTupleCollection("dRaddJetsdR08",    objectFloat, 5,help="dR of add jet with Higgs formed adding cen jets if dR<0.8 from hJetsCSV"),        
+                # "hjidxaddJetsdR08"       : NTupleCollection("hjidxaddJetsdR08",    objectInt, 5,help="Higgs jet indices with Higgs formed adding cen jets if dR<0.8 from hJetsCSV"),
+                # "ajidxaddJetsdR08"       : NTupleCollection("ajidxaddJetsdR08",    objectInt, 8,help="additional jet indices with Higgs formed adding cen jets if dR<0.8 from hJetsCSV"),
+#		"dRaddJetsdR08"       : NTupleCollection("dRaddJetsdR08",    objectFloat, 5,help="dR of add jet with Higgs formed adding cen jets if dR<0.8 from hJetsCSV"),
 #                "discardedJets"       : NTupleCollection("DiscardedJet",     jetTypeVHbb, 15, help="jets that were discarded"),
                 "inclusiveTaus"  : NTupleCollection("TauGood", tauTypeVHbb, 25, help="Taus after the preselection"),
                 "softActivityJets"    : NTupleCollection("softActivityJets", fourVectorType, 5, help="jets made for soft activity"),
                 "softActivityVHJets"    : NTupleCollection("softActivityVHJets", fourVectorType, 5, help="jets made for soft activity VH version"),
-                "goodVertices"    : NTupleCollection("primaryVertices", primaryVertexType, 4, help="first four PVs"), 
+                "goodVertices"    : NTupleCollection("primaryVertices", primaryVertexType, 4, help="first four PVs"),
 
 		#dump of gen objects
                 #"generatorSummary"    : NTupleCollection("GenSummary", genParticleWithLinksType, 30, help="Generator summary, see description in Heppy GeneratorAnalyzer",mcOnly=True),
                 "genJets"    : NTupleCollection("GenJet",   genJetType, 15, help="Generated jets with hadron matching, sorted by pt descending",filter=lambda x: x.pt() > 20,mcOnly=True),
-                "vh_genHiggsSisters"    : NTupleCollection("GenHiggsSisters",     genParticleType, 4, help="Sisters of the Higgs bosons",mcOnly=True),
+                #"vh_genHiggsSisters"    : NTupleCollection("GenHiggsSisters",     genParticleType, 4, help="Sisters of the Higgs bosons",mcOnly=True),
                 "vh_gentopquarks"    : NTupleCollection("GenTop",     genTopType, 4, help="Generated top quarks from hard scattering",mcOnly=True),
                 "vh_genallstatus2bhadrons"    : NTupleCollection("GenStatus2bHad",     genParticleType, 15, help="Generated Status 2 b Hadrons",mcOnly=True),
                 "gennusFromTop"    : NTupleCollection("GenNuFromTop",     genParticleType, 4, help="Generated neutrino from t->W decay",mcOnly=True),
-                "vh_genbquarksFromH"      : NTupleCollection("GenBQuarkFromH",  genParticleType, 4, help="Generated bottom quarks from Higgs decays",mcOnly=True),
+                #"vh_genbquarksFromH"      : NTupleCollection("GenBQuarkFromH",  genParticleType, 4, help="Generated bottom quarks from Higgs decays",mcOnly=True),
                 "vh_genbquarksFromTop"      : NTupleCollection("GenBQuarkFromTop",  genParticleType, 4, help="Generated bottom quarks from top decays",mcOnly=True),
-                "vh_genbquarksFromHafterISR"      : NTupleCollection("GenBQuarkFromHafterISR",  genParticleType, 4, help="Generated bottom quarks from Higgs decays",mcOnly=True),
+                #"vh_genbquarksFromHafterISR"      : NTupleCollection("GenBQuarkFromHafterISR",  genParticleType, 4, help="Generated bottom quarks from Higgs decays",mcOnly=True),
                 "vh_gengluonfromb"      : NTupleCollection("GenGluonFromB",  genParticleType, 4, help="Generated gluons from b-quarks",mcOnly=True),
                 "vh_gengluonfromt"      : NTupleCollection("GenGluonFromTop",  genParticleType, 4, help="Generated gluons from top quarks",mcOnly=True),
                 "vh_genwzquarks"     : NTupleCollection("GenWZQuark",   genParticleType, 6, help="Generated quarks from W/Z decays",mcOnly=True),
@@ -160,23 +160,23 @@ treeProducer= cfg.Analyzer(
 		"gennus"         : NTupleCollection("GenNu",     genParticleWithAncestryType, 6, help="Generated neutrino from W/Z decays",mcOnly=True),
                 "gentaus"         : NTupleCollection("GenTaus",     genParticleWithAncestryType, 6, help="Generated taus",mcOnly=True),
 		"gennusFromTau" : NTupleCollection("GenNuFromTau",     genParticleType, 8, help="Generated neutrino from tau decay",mcOnly=True),
-		
+
 		"vh_genlepsRecovered"         : NTupleCollection("GenLepRecovered",     genParticleType, 4, help="Generated leptons from recovered W/Z decays",mcOnly=True),
                 "genlepsFromTop"         : NTupleCollection("GenLepFromTop",     genParticleType, 4, help="Generated leptons from t->W decays",mcOnly=True),
 		"gentauleps"      : NTupleCollection("GenLepFromTau", genParticleType, 6, help="Generated leptons from decays of taus from W/Z/Higgs decays",mcOnly=True),
-		"vh_genHiggsBosons"   : NTupleCollection("GenHiggsBoson", genParticleType, 4, help="Generated Higgs boson ",mcOnly=True),
+		#"vh_genHiggsBosons"   : NTupleCollection("GenHiggsBoson", genParticleType, 4, help="Generated Higgs boson ",mcOnly=True),
 		#"genZbosonsToLL"  : NTupleCollection("GenZbosonsToLL", genParticleType, 6, help="Generated W or Z bosons decaying to LL"),
 		#"genWbosonsToLL"  : NTupleCollection("GenWbosonsToLL", genParticleType, 6, help="Generated W or Z bosons decaying to LL"),
 		"vh_genvbosons"       : NTupleCollection("GenVbosons", genParticleType, 6, help="Generated W or Z bosons, mass > 30",mcOnly=True),
                 "vh_genvbosonsRecovered"  : NTupleCollection("GenVbosonsRecovered", genParticleType, 6, help="Generated W or Z bosons recovered from daughters, mass > 30",mcOnly=True),
-		"pileUpVertex_z"       : NTupleCollection("pileUpVertex_z",    objectFloat, 5,help="z position of hardest pile-up collisions",mcOnly=True),        
-		"pileUpVertex_ptHat"   : NTupleCollection("pileUpVertex_ptHat",    objectFloat, 5,help="z position of hardest pile-up collisions",mcOnly=True),        
-		"LHE_weights_scale"       : NTupleCollection("LHE_weights_scale",   weightsInfoType , 6 ,help="LHE weights for scale variation", mcOnly=True),        
-		"LHE_weights_pdf"       : NTupleCollection("LHE_weights_pdf",   weightsInfoType , 103 ,help="LHE weights for pdf variation (NNPDF)", mcOnly=True),        
-		"l1Jets"       : NTupleCollection("l1Jets",   l1CandidateType , 20 ,help="Stage-2 L1 trigger jets", mcOnly=False),        
-		"l1Taus"       : NTupleCollection("l1Taus",   l1CandidateType , 20 ,help="Stage-2 L1 trigger taus", mcOnly=False),        
-		"l1Muons"       : NTupleCollection("l1Muons",   l1CandidateType , 20 ,help="Stage-2 L1 trigger muons", mcOnly=False),        
-		"l1EGammas"       : NTupleCollection("l1EGammas",   l1CandidateType , 20 ,help="Stage-2 L1 trigger EGammas", mcOnly=False),        
+		"pileUpVertex_z"       : NTupleCollection("pileUpVertex_z",    objectFloat, 5,help="z position of hardest pile-up collisions",mcOnly=True),
+		"pileUpVertex_ptHat"   : NTupleCollection("pileUpVertex_ptHat",    objectFloat, 5,help="z position of hardest pile-up collisions",mcOnly=True),
+		"LHE_weights_scale"       : NTupleCollection("LHE_weights_scale",   weightsInfoType , 6 ,help="LHE weights for scale variation", mcOnly=True),
+		"LHE_weights_pdf"       : NTupleCollection("LHE_weights_pdf",   weightsInfoType , 103 ,help="LHE weights for pdf variation (NNPDF)", mcOnly=True),
+		"l1Jets"       : NTupleCollection("l1Jets",   l1CandidateType , 20 ,help="Stage-2 L1 trigger jets", mcOnly=False),
+		"l1Taus"       : NTupleCollection("l1Taus",   l1CandidateType , 20 ,help="Stage-2 L1 trigger taus", mcOnly=False),
+		"l1Muons"       : NTupleCollection("l1Muons",   l1CandidateType , 20 ,help="Stage-2 L1 trigger muons", mcOnly=False),
+		"l1EGammas"       : NTupleCollection("l1EGammas",   l1CandidateType , 20 ,help="Stage-2 L1 trigger EGammas", mcOnly=False),
 	}
 	)
 
@@ -191,7 +191,7 @@ treeProducer.globalObjects.update(shifted_mets)
 btag_weights = {}
 for algo in ["CSV", "CMVAV2"]:
 	for syst in ["central", "up_jes", "down_jes", "up_lf", "down_lf", "up_hf", "down_hf", "up_hfstats1", "down_hfstats1", "up_hfstats2", "down_hfstats2", "up_lfstats1", "down_lfstats1", "up_lfstats2", "down_lfstats2", "up_cferr1", "down_cferr1", "up_cferr2", "down_cferr2"]:
-		syst_name = "" if syst=="central" else ("_"+syst) 
+		syst_name = "" if syst=="central" else ("_"+syst)
 		btag_weights["btagWeight"+algo+syst_name] = NTupleVariable("btagWeight"+algo+syst_name,
 									   lambda ev, get_event_SF=get_event_SF, syst=syst, algo=algo, btag_calibrators=btag_calibrators : get_event_SF(ev.cleanJetsAll, syst, algo, btag_calibrators)
 									   , float, mcOnly=True, help="b-tag "+algo+"continuous  weight, variating "+syst
@@ -221,16 +221,16 @@ treeProducer.globalVariables += list(btag_weights.values())
 from PhysicsTools.Heppy.analyzers.objects.LeptonAnalyzer import LeptonAnalyzer
 LepAna = LeptonAnalyzer.defaultConfig
 #LepAna.doElectronScaleCorrections = {
-#	'data' : 'EgammaAnalysis/ElectronTools/data/76X_16DecRereco_2015', 
-#	'GBRForest' : [os.environ['CMSSW_BASE']+'/src/VHbbAnalysis/Heppy/data/egamma/egamma_epComb_GBRForest_76X.root','gedelectron_p4combination_25ns'], 
+#	'data' : 'EgammaAnalysis/ElectronTools/data/76X_16DecRereco_2015',
+#	'GBRForest' : [os.environ['CMSSW_BASE']+'/src/VHbbAnalysis/Heppy/data/egamma/egamma_epComb_GBRForest_76X.root','gedelectron_p4combination_25ns'],
 #	'isSync' : False
 #	}
 LepAna.mu_isoCorr  = "deltaBeta"
-#LepAna.loose_muon_isoCut = lambda muon : muon.relIso04 < 0.25 
+#LepAna.loose_muon_isoCut = lambda muon : muon.relIso04 < 0.25
 LepAna.loose_muon_isoCut = lambda muon : (muon.relIso04 < 0.4 or muon.miniRelIso < 0.4)
 LepAna.loose_muon_pt = 4.5
 LepAna.ele_isoCorr = "rhoArea"
-LepAna.loose_electron_isoCut = lambda electron : (electron.relIso03 < 0.4 or electron.miniRelIso < 0.4) 
+LepAna.loose_electron_isoCut = lambda electron : (electron.relIso03 < 0.4 or electron.miniRelIso < 0.4)
 #LepAna.loose_electron_isoCut = lambda electron : ele_mvaEleID_Trig_preselection(electron)
 LepAna.loose_electron_pt = 6.5
 LepAna.loose_electron_eta = 2.5
@@ -264,13 +264,13 @@ from PhysicsTools.Heppy.analyzers.objects.JetAnalyzer import JetAnalyzer
 JetAna = JetAnalyzer.defaultConfig
 JetAna.calculateSeparateCorrections = True # CV: needed for ttH prompt lepton MVA
 
-from PhysicsTools.Heppy.analyzers.gen.LHEAnalyzer import LHEAnalyzer 
+from PhysicsTools.Heppy.analyzers.gen.LHEAnalyzer import LHEAnalyzer
 LHEAna = LHEAnalyzer.defaultConfig
 
-from PhysicsTools.Heppy.analyzers.gen.LHEWeightAnalyzer import LHEWeightAnalyzer 
+from PhysicsTools.Heppy.analyzers.gen.LHEWeightAnalyzer import LHEWeightAnalyzer
 LHEWeightAna = LHEWeightAnalyzer.defaultConfig
 
-from PhysicsTools.Heppy.analyzers.gen.GeneratorAnalyzer import GeneratorAnalyzer 
+from PhysicsTools.Heppy.analyzers.gen.GeneratorAnalyzer import GeneratorAnalyzer
 GenAna = GeneratorAnalyzer.defaultConfig
 GenAna.allGenTaus = True
 
@@ -322,9 +322,9 @@ def mu_pfRelIso04(mu):
 
 # the MVA-triggering preseletion according to:
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateElectronIdentificationRun2#Recommended_MVA_recipes_for_2015
-def ele_mvaEleID_Trig_preselection(ele) : 
-	return (ele.pt()>15 and 
-		( ( abs(ele.superCluster().eta()) < 1.4442 and ele.full5x5_sigmaIetaIeta() < 0.012 and ele.hcalOverEcal() < 0.09 and (ele.ecalPFClusterIso() / ele.pt()) < 0.37 and (ele.hcalPFClusterIso() / ele.pt()) < 0.25 and (ele.dr03TkSumPt() / ele.pt()) < 0.18 and abs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.0095 and abs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.065 ) or 
+def ele_mvaEleID_Trig_preselection(ele) :
+	return (ele.pt()>15 and
+		( ( abs(ele.superCluster().eta()) < 1.4442 and ele.full5x5_sigmaIetaIeta() < 0.012 and ele.hcalOverEcal() < 0.09 and (ele.ecalPFClusterIso() / ele.pt()) < 0.37 and (ele.hcalPFClusterIso() / ele.pt()) < 0.25 and (ele.dr03TkSumPt() / ele.pt()) < 0.18 and abs(ele.deltaEtaSuperClusterTrackAtVtx()) < 0.0095 and abs(ele.deltaPhiSuperClusterTrackAtVtx()) < 0.065 ) or
 		  ( abs(ele.superCluster().eta()) > 1.5660 and ele.full5x5_sigmaIetaIeta() < 0.033 and ele.hcalOverEcal() <0.09 and (ele.ecalPFClusterIso() / ele.pt()) < 0.45 and (ele.hcalPFClusterIso() / ele.pt()) < 0.28 and (ele.dr03TkSumPt() / ele.pt()) < 0.18 ) ) )
 
 from VHbbAnalysis.Heppy.ttHLeptonMVAAnalyzer import ttHLeptonMVAAnalyzer
@@ -402,7 +402,7 @@ TrigAna = cfg.Analyzer(
 #   outprefix = 'HLT'
    )
 
-from PhysicsTools.HeppyCore.framework.services.tfile import TFileService 
+from PhysicsTools.HeppyCore.framework.services.tfile import TFileService
 output_service = cfg.Service(
       TFileService,
       'outputfile',
@@ -476,7 +476,7 @@ silverJsonAna = cfg.Analyzer(JSONAnalyzer,
 
 sequence = [
     jsonAna,LHEAna,LHEWeightAna,FlagsAna,
-    #hbheAna, 
+    #hbheAna,
     GenAna,VHGenAna,PUAna,TrigAna,
     VertexAna,LepAna,PhoAna,TauAna,JetAna,
     ttHLeptonMVA,METAna, METPuppiAna,
@@ -492,9 +492,9 @@ sample = cfg.MCComponent(
     #files = ["226BB247-A565-E411-91CF-00266CFF0AF4.root"],
     name="ZHLL125", isEmbed=False,
     puFileMC="puMC.root",
-    puFileData="puData.root", 
-    puFileDataPlus="puDataPlus.root", 
-    puFileDataMinus="puDataMinus.root", 
+    puFileData="puData.root",
+    puFileDataPlus="puDataPlus.root",
+    puFileDataMinus="puDataMinus.root",
     splitFactor = 5
     )
 sample.isMC=True
@@ -506,7 +506,7 @@ sample.isMC=True
 selectedComponents = [sample]
 from PhysicsTools.HeppyCore.framework.eventsfwlite import Events
 config = cfg.Config( components = selectedComponents,
-                     sequence = sequence, 
+                     sequence = sequence,
 		     services = [output_service],
                      events_class = Events)
 
@@ -514,9 +514,9 @@ class TestFilter(logging.Filter):
     def filter(self, record):
         print record
 
-# and the following runs the process directly 
+# and the following runs the process directly
 if __name__ == '__main__':
-    from PhysicsTools.HeppyCore.framework.looper import Looper 
+    from PhysicsTools.HeppyCore.framework.looper import Looper
     looper = Looper( 'Loop', config, nPrint = 1, nEvents = 10)
 
     import time
