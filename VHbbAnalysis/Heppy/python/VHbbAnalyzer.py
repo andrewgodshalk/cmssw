@@ -519,7 +519,8 @@ class VHbbAnalyzer( Analyzer ):
 #A               return False
 #A           if event.Vtype < 0 and not ( sum(x.pt() > 30 for x in event.jetsForHiggsAll) >= 4 or sum(x.pt() for x in event.jetsForHiggsAll[:4]) > self.cfg_ana.sumPtThreshold ):
 #A                return False
-              if not event.Vtype in [0,1,5]:     # If event isn't a Z-> lepton lepton event
+              #if not event.Vtype in [0,1,5]:     # If event isn't a Z-> lepton lepton event
+              if not event.Vtype in [0,1,2,3,5]:   # If event isn't a contain a Z, W, or at least a valid lepton...
 		  return False
 
         map(lambda x :x.qgl(),event.jetsForHiggs[:6])
