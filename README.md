@@ -7,23 +7,24 @@ Directions taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/VHiggsBB#Ntup
 source /cvmfs/cms.cern.ch/cmsset_default.csh
 ```
 
-##### Set up CMSSW release (preferably in some scratch space)
+##### Set up CMSSW release in your scratch space scratch space (directory name not important)
 ```
-mkdir NtuplerWork
-cd NtuplerWork
+mkdir NtuplerWorkDir
+cd NtuplerWorkDir
 ```
 [ZC2016]: Use CMSSW_8_0_19 \
 [ZC2015]: Use CMSSW_7_6_3_patch2
 ```
-cmsrel CMSSW_7_6_3_patch2
-cd CMSSW_7_6_3_patch2/src/
+cmsrel CMSSW_8_0_19
+cd CMSSW_8_0_19/src/
 cmsenv
 ```
 
-##### Check out appropriate tag
+##### Check out software from github
 ```
-git cms-merge-topic andrewgodshalk:ZC2015
+git cms-merge-topic andrewgodshalk:ZC2016
 ```
+For more information about CMSSW on git, see http://cms-sw.github.io/
 
 ##### Check the upstream for updates (optional, for development purposes)
 For ZC2015:
@@ -33,10 +34,14 @@ git fetch perrozzi
 git merge perrozzi/V21bis
 ```
 
-For ZC2016:
+For ZC2016: taken from https://github.com/vhbb/cmssw/tree/V24
+See more documentation at https://twiki.cern.ch/twiki/bin/viewauth/CMS/VHiggsBB#Ntuple_production_campaigns_for
 ```
-**TO DO: ADD UPSTREAM DIRECTIONS**
+git remote add perrozzi https://github.com/vhbb/cmssw.git
+git fetch vhbb
+git merge vhbb/V24
 ```
+Resolve conflicts, commit, and continue.
 
 ##### Compile
 ```
@@ -44,26 +49,34 @@ scram b -j 16
 ```
 NOTE: Compilation can take over an hour if using ZC2016.
 
-##### TO DO: ADD DIRECTIONS, EXACT LOCATIONS TO CHANGE IN CONFIG.
-Directions go here.
+##### Modify Configuration Files
+- Move to the [VHbbAnalysis/Heppy/test](https://github.com/andrewgodshalk/cmssw/tree/ZC2016/VHbbAnalysis/Heppy/test) directory. Most of the work will be done from here.
+- Modify [crab/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py) (line numbers subject to change):
+  - [~L6](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L6): Change config.General.requestName name to something meaningful.
+  - [~L7](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L7): Set up config.General.workArea to point to a new, meaninfully named directory.
+  - [~L48](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L48): config.Data.splitting to FileBased. Can also be LumiBased, but it's a bit easier to deal with problem files as opposed to problem Lumis.
+  - [~L49](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L49): Change config.Data.unitsPerJob to 1. May increase if desired, but found we've had problems with memory leaks that kill jobs with more units on some T2s.
+  - [~L51](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L51): config.Data.totalUnits = 1 : Set to run a single job. Good for testing submission. Comment out when ready to run over full datasets.
+  - [~L54](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L54): set config.Data.outLFNDirBase to point to an EOS storage space.
+  - [~L56]
+- Need to make similar modifications to run over datasets: [crab_data/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab_data/heppy_crab_config.py)
+- Modify [vhbb.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/vhbb.py#L491) and [vhbb_combined_data.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/vhbb_combined_data.py) with new source files (an MC and DATA file, respectively) for local testing.
 
 ##### Do a local test.
 ```
 cd VHbbAnalysis/Heppy/test
 python vhbb_combined.py
+python vhbb_combined_data.py
 ```
+Check resulting Loop_* folders for resulting tree.root.
 
 ##### To run over crab...
-- First mess with crab/heppy_crab_config.py to set up your own outLFNDirBase for output storage on EOS /
 ```
-cd crab
+cd crab (or cd crab_data)
 source /cvmfs/cms.cern.ch/crab3/crab.sh
 voms-proxy-init --voms cms --valid 168:00
-# sh launchall.sh VHBBHeppyV21bis_datasets.txt
-# submission command commented to avoid undesired submissions
+sh launchall.sh LIST_OF_DATASETS_TO_PROCESS.txt
 ```
 
 ##### TO DO: ADD DIRECTIONS EOS DIRECTIONS, FOR PROCESSING JOB OUTPUT, CHECKING QUOTA, ETC.
-
-
 
