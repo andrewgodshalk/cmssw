@@ -58,7 +58,7 @@ NOTE: Compilation can take over an hour if using ZC2016.
   - [~L49](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L49): Change config.Data.unitsPerJob to 1. May increase if desired, but found we've had problems with memory leaks that kill jobs with more units on some T2s.
   - [~L51](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L51): config.Data.totalUnits = 1 : Set to run a single job. Good for testing submission. Comment out when ready to run over full datasets.
   - [~L54](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L54): set config.Data.outLFNDirBase to point to an EOS storage space.
-  - [~L56]
+  - [~L56](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L56): set config.Data.outputDatasetTag to a meaningful, unique identifier.
 - Need to make similar modifications to run over datasets: [crab_data/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab_data/heppy_crab_config.py)
 - Modify [vhbb.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/vhbb.py#L491) and [vhbb_combined_data.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/vhbb_combined_data.py) with new source files (an MC and DATA file, respectively) for local testing.
 
