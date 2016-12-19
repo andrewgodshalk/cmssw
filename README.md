@@ -37,17 +37,20 @@ git merge perrozzi/V21bis
 For ZC2016: taken from https://github.com/vhbb/cmssw/tree/V24
 See more documentation at https://twiki.cern.ch/twiki/bin/viewauth/CMS/VHiggsBB#Ntuple_production_campaigns_for
 ```
-git remote add perrozzi https://github.com/vhbb/cmssw.git
+git remote add vhbb https://github.com/vhbb/cmssw.git
 git fetch vhbb
+git diff vhbb/V24
+```
+vhbb/V24 is the latest branch as of this writing. Check the documentation, or with the VHbb group, to see if there is a more recent version. Resolve conflicts, commit, and continue:
+```
 git merge vhbb/V24
 ```
-Resolve conflicts, commit, and continue.
 
 ##### Compile
 ```
 scram b -j 16
 ```
-NOTE: Compilation can take over an hour if using ZC2016.
+NOTE: Compilation may take up to an hour if using ZC2016.
 
 ##### Modify Configuration Files
 - Move to the [VHbbAnalysis/Heppy/test](https://github.com/andrewgodshalk/cmssw/tree/ZC2016/VHbbAnalysis/Heppy/test) directory. Most of the work will be done from here.
