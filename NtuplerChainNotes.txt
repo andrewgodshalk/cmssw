@@ -1,0 +1,82 @@
+Run by calling "launchall.sh dataset_textfile.txt" from VHbbAnalysis/Heppy/test/crab[_data] directory
+- Tried to comment out old lines w/ "#A" at beginning of line. Not always the case, but shows most of the changes I made.
+
+crab/launchall.sh:
+- For each line in the dataset_textfile.txt, launchall.sh sets environmental variable DATASET to the line, then calls:
+     crab submit -c heppy_crab_config_env.py
+
+crab/heppy_crab_config_env.py:
+- loads "heppy_crab_config.py" as a source.
+- sets up the input and output dataset tags using env DATASET variable.
+
+crab/heppy_crab_config.py:
+- Sets up crab request
+	**CHANGE NAME OF REQUEST, line 5
+- Sets up a project area
+	**CHANGE NAME OF PROJECT AREA, line 6
+- uncommented outputfiles (line 37)
+- Changed unitsPerJob to 5 (cut down on EOS accesses).
+   **CHANGE config.Data.*. See below.
+	config.Data.outLFNDirBase = '/store/user/leptonjets/noreplica/godshalk/2016-10_ZJNtuples2015_/crab_output'
+	config.Data.publication = False      <-- changed from true.
+	config.Data.outputDatasetTag = 'ZPJ_2015'   <-- Changed  to personal dataset tag.
+- Sources heppy_crab_fake_pset.py as a fake pset, but really runs heppy_crab_script.sh instead.
+
+crab/heppy_crab_script.sh - sets up environment and calls heppy_crab_script.py
+
+crab/heppy_crab_script.py - sets up environment, output, sources heppy_config.py
+ - crab/heppy_config.py is a hard link to vhbb_combined.py
+ - vhbb_combined_data.py sourced in crab_data folder.
+
+vhbb_combined.py
+ - does extra configuration
+ - sources vhbb.py
+ - Nothing changed.
+vhbb_combined_data.py -> changed source file for testing purposes
+ - May need to change again
+
+vhbb.py
+- Sets up VHbb Analysis stuffs, including VHbbAnalyzer.py, vhbbobj.py from python folder.
+- Sets up objects to be recorded.
+- Sets up object analyzer variables (lepton pt, jet info, etc.)
+- changed sample file to work on lpc xrootd dy file.
+- changed passall (Ln365) to false (otherwise passes every event despite selection = HUGE FILES)
+- Removed a number of unecessary variables, including selLeptons
+
+vhbbobj.py
+- Sets up objects used in analysis, output in Heppy
+- changed to include Jet_vtxMassCorr and Jet_vtxPx/y/z
+
+VHbbAnalyzer.py
+ Around line 490-500, changed selection criteria to include
+ - a selected Z(Vtype = 0 or 1)
+ - an event with at least 1 selected lepton but not selected as W (Vtype = 5) - good for zeu analysis
+ - VType = 2,3 for W selection
+
+ VType classified in VHbbAnalyzer.py: classify[MC]Event()
+  -1 = no selection
+  VtypeSim: zuu = 0, zee = 1, wuv = 2, wev = 3, zvv = 4, ztt = 5
+  VType: zuu = 0, zee = 1, wuv = 2, wev = 3, no leptons AT ALL = 4, at least one good z-lepton = 5
+
+  Lepton Selection: Ln350, vhbb.py
+      wEleSelection = lambda x : x.pt() > 25 and getattr(x,"mvaIdSpring15TrigTight",False) and ele_mvaEleID_Trig_preselection(x),
+      wMuSelection = lambda x : x.pt() > 25 and x.muonID("POG_ID_Tight") and mu_pfRelIso04(x) < 0.15,
+      zEleSelection = lambda x : x.pt() > 15 and getattr(x,"mvaIdSpring15TrigMedium",False) and ele_mvaEleID_Trig_preselection(x),
+      zMuSelection = lambda x : x.pt() > 15 and x.muonID("POG_ID_Loose") and mu_pfRelIso04(x) < 0.25,
+      zLeadingElePt = 20,
+      zLeadingMuPt = 20,
+  - Not sure where, but lepton selection goes with |eta|<2.5
+
+  Vtype - determined by Ln353, classifyEvent()
+  - Selects leptons (zMuons/Elecs, wMuons/Elecs) based on ana_cfg functions
+       - ana_cfg.zMuonSelection(), etc determined in vhbb.py, see above.
+       - sorted by largest pt. make sure leading lep has pt > 20
+       - Looks for Z (0 then 1), then W (2 then 3, exactly one selected lep), then at least one zLep (5). -> Event can only qualify for ONE Vtype.
+       - Z leps: Leading lep, then leading opposite sign same flavor lep.
+  - No selection on mass.
+
+  VtypeSim - determined at line 316, classifyMCEvent()
+       : -1 by default.
+       : -2: more than one genVBoson
+       : 0,1,5,4 = Z->uu/ee/tt/vv
+       : 2,3: W->uv/ev
