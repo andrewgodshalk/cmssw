@@ -54,7 +54,7 @@ NOTE: Compilation may take up to an hour if using ZC2016.
 
 ##### Modify Configuration Files
 - Move to the [VHbbAnalysis/Heppy/test](https://github.com/andrewgodshalk/cmssw/tree/ZC2016/VHbbAnalysis/Heppy/test) directory. Most of the work will be done from here.
-- Modify [crab/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py) (line numbers subject to change):
+- Modify [crab/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py) for running over simulated datasets with crab (line numbers subject to change):
   - [~L6](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L6): Change config.General.requestName name to something meaningful.
   - [~L7](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L7): Set up config.General.workArea to point to a new, meaninfully named directory.
   - [~L48](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L48): config.Data.splitting to FileBased. Can also be LumiBased, but it's a bit easier to deal with problem files as opposed to problem Lumis.
@@ -62,7 +62,7 @@ NOTE: Compilation may take up to an hour if using ZC2016.
   - [~L51](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L51): config.Data.totalUnits = 1 : Set to run a single job. Good for testing submission. Comment out when ready to run over full datasets.
   - [~L54](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L54): set config.Data.outLFNDirBase to point to an EOS storage space.
   - [~L56](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py#L56): set config.Data.outputDatasetTag to a meaningful, unique identifier.
-- Need to make similar modifications to run over datasets: [crab_data/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab_data/heppy_crab_config.py)
+- Need to make similar modifications to run over DATA datasets: [crab_data/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab_data/heppy_crab_config.py)
 - Modify [vhbb.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/vhbb.py#L491) and [vhbb_combined_data.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/vhbb_combined_data.py) with new source files (an MC and DATA file, respectively) for local testing.
 
 ##### Do a local test.
