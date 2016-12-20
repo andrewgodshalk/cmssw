@@ -2,7 +2,7 @@ Directions taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/VHiggsBB#Ntup
 
 ## To set up the environment on LPC... 
 
-##### Source LPC Scripts
+##### Source LPC Environment Scripts
 ```
 source /cvmfs/cms.cern.ch/cmsset_default.csh
 ```
@@ -68,6 +68,8 @@ NOTE: Compilation may take up to an hour if using ZC2016.
 ##### Do a local test.
 ```
 cd VHbbAnalysis/Heppy/test
+source /cvmfs/cms.cern.ch/crab3/crab.sh
+voms-proxy-init -voms cms -valid 168:00
 python vhbb_combined.py
 python vhbb_combined_data.py
 ```
@@ -77,9 +79,38 @@ Check resulting Loop_* folders for resulting tree.root.
 ```
 cd crab (or cd crab_data)
 source /cvmfs/cms.cern.ch/crab3/crab.sh
-voms-proxy-init --voms cms --valid 168:00
-sh launchall.sh ZPJ_datasets_MC2016_SPRING16_TEST.txt
+voms-proxy-init -voms cms -valid 168:00
+./launchall.sh dataset_lists/ZPJ_datasets_MC2016_SPRING16_TEST.txt
 ```
+A crab project folder based on your specifications in heppy_crab_config.py will be created in the crab directory. launchall.sh will create a crab task for each dataset in the input dataset_list.txt file. 
+
+### Check Job Status
+For an individual task:
+```
+crab status -d <TASK DIRECTORY>
+```
+
+For all tasks in a project, from VHbbAnalysis/Heppy/test/:
+```
+python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY>
+```
+Script will output status of all crab jobs located in \<CRAB PROJECT DIRECTORY>\
+
+On the web, check the listing for your name on the [Task Monitoring Dashboard](http://dashb-cms-job.cern.ch/dashboard).
+
+##### Resubmitting Failed Jobs
+For an individual task:
+```
+crab resubmit -d <TASK DIRECTORY>
+```
+
+For all tasks in a project, from VHbbAnalysis/Heppy/test/:
+```
+python crab_auto/resubmit_project_tasks.py <CRAB PROJECT DIRECTORY>
+```
+
+##### 
+
 
 ##### TO DO: ADD DIRECTIONS EOS DIRECTIONS, FOR PROCESSING JOB OUTPUT, CHECKING QUOTA, ETC.
 
@@ -95,5 +126,9 @@ Only works if you have access to remote "my-cmssw".
 git fetch my-cmssw
 git merge my-cmssw/ZC2016 
 ```
-
 See documentation on [git-fetch](https://git-scm.com/docs/git-fetch) and [git-merge](https://git-scm.com/docs/git-merge) for more info.
+
+##### Other useful links
+- [EOS at LPC Information](http://uscms.org/uscms_at_work/computing/LPC/usingEOSAtLPC.shtml)
+- [DAS](https://cmsweb.cern.ch/das/) - Dataset database web lookup.
+- [CRAB Documentation](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCrab)
