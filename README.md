@@ -86,14 +86,14 @@ sh launchall.sh ZPJ_datasets_MC2016_SPRING16_TEST.txt
 
 ##### Pushing changes to repo
 ```
-
+git push my-cmssw from-CMSSW_8_0_19:ZC2016
 ```
-
+Only works if you have access to remote "my-cmssw".
 
 ##### Pulling changes from github
 ```
 git fetch my-cmssw
-git merge my-cmssw ZC2016 
+git merge my-cmssw/ZC2016 
 ```
 
 See documentation on [git-fetch](https://git-scm.com/docs/git-fetch) and [git-merge](https://git-scm.com/docs/git-merge) for more info.
