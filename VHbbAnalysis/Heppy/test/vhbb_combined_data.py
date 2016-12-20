@@ -12,10 +12,11 @@ sample.isData=True
 from vhbb_combined import *
 sample.json="json.txt"
 sample.files=[
-    #"root://xrootd.ba.infn.it//store/data/Run2015D/BTagCSV/MINIAOD/16Dec2015-v1/50000/00AF8EB4-70AB-E511-9271-00266CFAE7AC.root"
-    #"root://131.169.191.218:1094//store/data/Run2016B/BTagCSV/MINIAOD/PromptReco-v2/000/273/537/00000/E8E0EF1B-7E1F-E611-8717-02163E012B71.root",
-    #"root://131.169.191.218:1094//store/data/Run2016B/SingleMuon//MINIAOD/PromptReco-v2/000/273/537/00000/6EDA3436-A91F-E611-83EA-02163E014736.root"
-    "root://cmsxrootd.fnal.gov//store/data/Run2016B/DoubleMuon/MINIAOD/PromptReco-v2/000/273/150/00000/680BED0F-D919-E611-85E6-02163E01424F.root"
+    # SAMPLE FILES FROM DATA - ENTERED 2016-12-20
+        # /SingleMuon/Run2016C-PromptReco-v2/MINIAOD
+        "root://cmsxrootd.fnal.gov//store/data/Run2016C/SingleMuon/MINIAOD/PromptReco-v2/000/275/657/00000/AE21C45F-703B-E611-9B97-02163E011C23.root",
+        # /DoubleEG/Run2016D-PromptReco-v2/MINIAOD
+        #"root://cmsxrootd.fnal.gov//store/data/Run2016D/DoubleEG/MINIAOD/PromptReco-v2/000/276/318/00000/005511B0-2045-E611-81E7-02163E0142DC.root",
     ]
 
 TriggerObjectsAna.triggerObjectInputTag = ('selectedPatTrigger','','RECO')
