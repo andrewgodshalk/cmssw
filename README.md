@@ -78,8 +78,22 @@ Check resulting Loop_* folders for resulting tree.root.
 cd crab (or cd crab_data)
 source /cvmfs/cms.cern.ch/crab3/crab.sh
 voms-proxy-init --voms cms --valid 168:00
-sh launchall.sh LIST_OF_DATASETS_TO_PROCESS.txt
+sh launchall.sh ZPJ_datasets_MC2016_SPRING16_TEST.txt
 ```
 
 ##### TO DO: ADD DIRECTIONS EOS DIRECTIONS, FOR PROCESSING JOB OUTPUT, CHECKING QUOTA, ETC.
 
+
+##### Pushing changes to repo
+```
+
+```
+
+
+##### Pulling changes from github
+```
+git fetch my-cmssw
+git merge my-cmssw ZC2016 
+```
+
+See documentation on [git-fetch](https://git-scm.com/docs/git-fetch) and [git-merge](https://git-scm.com/docs/git-merge) for more info.
