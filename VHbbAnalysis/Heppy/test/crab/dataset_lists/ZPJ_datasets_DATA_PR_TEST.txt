@@ -1,0 +1,2 @@
+/SingleMuon/Run2016C-PromptReco-v2/MINIAOD
+/DoubleEG/Run2016D-PromptReco-v2/MINIAOD
