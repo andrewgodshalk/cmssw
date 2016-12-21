@@ -94,7 +94,10 @@ For all tasks in a project, from VHbbAnalysis/Heppy/test/:
 ```
 python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY>
 ```
-Script will output status of all crab jobs located in \<CRAB PROJECT DIRECTORY>\
+Script will output status of all crab jobs located in \<CRAB PROJECT DIRECTORY>\. May be useful to pipe output into a temporary file for easier browsing:
+```
+python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY> &> status_output.txt
+```
 
 On the web, check the listing for your name on the [Task Monitoring Dashboard](http://dashb-cms-job.cern.ch/dashboard).
 
