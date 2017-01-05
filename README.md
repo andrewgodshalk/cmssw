@@ -1,6 +1,6 @@
 Directions taken from https://twiki.cern.ch/twiki/bin/viewauth/CMS/VHiggsBB#Ntuple_production_campaigns_AN1
 
-## To set up the environment on LPC... 
+## Setting up software on LPC
 
 ##### Source LPC Environment Scripts
 ```
@@ -52,6 +52,9 @@ scram b -j 16
 ```
 NOTE: Compilation may take up to an hour if using ZC2016.
 
+
+## Processing with CRAB
+
 ##### Modify Configuration Files
 - Move to the [VHbbAnalysis/Heppy/test](https://github.com/andrewgodshalk/cmssw/tree/ZC2016/VHbbAnalysis/Heppy/test) directory. Most of the work will be done from here.
 - Modify [crab/heppy_crab_config.py](https://github.com/andrewgodshalk/cmssw/blob/ZC2016/VHbbAnalysis/Heppy/test/crab/heppy_crab_config.py) for running over simulated datasets with crab (line numbers subject to change):
@@ -92,11 +95,11 @@ crab status -d <TASK DIRECTORY>
 
 For all tasks in a project, from VHbbAnalysis/Heppy/test/:
 ```
-python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY>
+python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY> [OPTIONS]
 ```
-Script will output status of all crab jobs located in \<CRAB PROJECT DIRECTORY>\. May be useful to pipe output into a temporary file for easier browsing:
+Script will output status of all crab jobs located in \<CRAB PROJECT DIRECTORY>\. Options for the crab status command may be included after the dataset. It may be useful to pipe output into a temporary file for easier browsing:
 ```
-python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY> &> status_output.txt
+python crab_auto/check_proj_status.py <CRAB PROJECT DIRECTORY> > status_output.txt
 ```
 
 On the web, check the listing for your name on the [Task Monitoring Dashboard](http://dashb-cms-job.cern.ch/dashboard).
@@ -104,16 +107,13 @@ On the web, check the listing for your name on the [Task Monitoring Dashboard](h
 ##### Resubmitting Failed Jobs
 For an individual task:
 ```
-crab resubmit -d <TASK DIRECTORY>
+crab resubmit -d <TASK DIRECTORY> [OPTIONS]
 ```
 
 For all tasks in a project, from VHbbAnalysis/Heppy/test/:
 ```
 python crab_auto/resubmit_project_tasks.py <CRAB PROJECT DIRECTORY>
 ```
-
-##### 
-
 
 ##### TO DO: ADD DIRECTIONS EOS DIRECTIONS, FOR PROCESSING JOB OUTPUT, CHECKING QUOTA, ETC.
 
@@ -129,7 +129,7 @@ Only works if you have access to remote "my-cmssw".
 git fetch my-cmssw
 git merge my-cmssw/ZC2016 
 ```
-See documentation on [git-fetch](https://git-scm.com/docs/git-fetch) and [git-merge](https://git-scm.com/docs/git-merge) for more info.
+See documentation on [git-fetch](https://git-scm.com/docs/git-fetch) and [git-merge](https://git-scm.com/docs/git-merge) for more info on pulling changes from github and rectifying conflicts.
 
 ##### Other useful links
 - [EOS at LPC Information](http://uscms.org/uscms_at_work/computing/LPC/usingEOSAtLPC.shtml)
