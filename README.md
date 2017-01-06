@@ -78,6 +78,11 @@ python vhbb_combined_data.py
 ```
 Check resulting Loop_* folders for resulting tree.root.
 
+##### Record Dataset Information
+
+TO DO: Include information about running automation scripts, recording DAS information.
+TO DO: Include information abotu datasets, where lists are created from.
+
 ##### To run over crab...
 ```
 cd crab (or cd crab_data)
@@ -87,7 +92,7 @@ voms-proxy-init -voms cms -valid 168:00
 ```
 A crab project folder based on your specifications in heppy_crab_config.py will be created in the crab directory. launchall.sh will create a crab task for each dataset in the input dataset_list.txt file. 
 
-### Check Job Status
+##### Check Job Status
 For an individual task:
 ```
 crab status -d <TASK DIRECTORY>
@@ -115,8 +120,37 @@ For all tasks in a project, from VHbbAnalysis/Heppy/test/:
 python crab_auto/resubmit_project_tasks.py <CRAB PROJECT DIRECTORY>
 ```
 
-##### TO DO: ADD DIRECTIONS EOS DIRECTIONS, FOR PROCESSING JOB OUTPUT, CHECKING QUOTA, ETC.
+## Calculating Processed Luminosity (DATA ONLY)
+Alright. Your data projects are in some state of completion. Time to calculate the integratd luminosity you succesfully processed. You should be able to run crab report even if your project has some failed jobs or has completed running.
 
+NOTE: It might be best to calculate luminosity after all jobs have completed and you've already merged your ntuples, so there is no discrepancy caused by jobs completing after one or the other step.
+
+##### Run crab report
+
+For all tasks in a project, from VHbbAnalysis/Heppy/test/:
+```
+python crab_auto/get_proj_reporst.py <CRAB PROJECT DIRECTORY>
+```
+
+This command will run "crab report" for all tasks in the project directory (the terminal output is informative as well), then copies all of resulting JSON files (from PROJ_DIR/TASK_DIR/results/) to a timestamped reports folder in the PROJ_DIR.
+
+##### Merge report JSON with Golden JSON
+NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
+
+
+##### Run Brilcalc
+NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
+
+##### Document, Store Results
+
+Upload results to EOS, record information on data processing sheet.
+
+## Merging, storing Ntuples
+
+##### Script nonsense
+##### Document, Store Results
+
+## Code Housekeeping
 
 ##### Pushing changes to repo
 ```
@@ -131,7 +165,7 @@ git merge my-cmssw/ZC2016
 ```
 See documentation on [git-fetch](https://git-scm.com/docs/git-fetch) and [git-merge](https://git-scm.com/docs/git-merge) for more info on pulling changes from github and rectifying conflicts.
 
-##### Other useful links
+## Other useful links
 - [EOS at LPC Information](http://uscms.org/uscms_at_work/computing/LPC/usingEOSAtLPC.shtml)
 - [DAS](https://cmsweb.cern.ch/das/) - Dataset database web lookup.
 - [CRAB Documentation](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideCrab)
