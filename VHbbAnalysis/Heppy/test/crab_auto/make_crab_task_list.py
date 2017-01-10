@@ -8,6 +8,8 @@
 #
 # Function that creates a text list of crab task directories for an
 #   input project directory.
+# Excludes entries in folder not beginning with "crab_" (i.e. skips
+# existing task lists, report folders, etc.).
 #
 
 import os, sys
