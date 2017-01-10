@@ -129,7 +129,7 @@ NOTE: It might be best to calculate luminosity after all jobs have completed and
 
 For all tasks in a project, from VHbbAnalysis/Heppy/test/:
 ```
-python crab_auto/get_proj_reporst.py <CRAB PROJECT DIRECTORY>
+python crab_auto/get_proj_reports.py <CRAB PROJECT DIRECTORY>
 ```
 
 This command will run "crab report" for all tasks in the project directory (the terminal output is informative as well), then copies all of resulting JSON files (from PROJ_DIR/TASK_DIR/results/) to a timestamped reports folder in the PROJ_DIR.
