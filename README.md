@@ -145,9 +145,34 @@ NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
 
 Upload results to EOS, record information on data processing sheet.
 
+
 ## Merging, storing Ntuples
 
 ##### Script nonsense
+
+Scripts for using condor to merge ntuples into larger files can be found in the [merge_scripts](https://github.com/andrewgodshalk/cmssw/tree/ZC2016/VHbbAnalysis/Heppy/test/) folder. Before beginning, it is a good idea to remove any old working files from the files_and_sizes and merged_filelists directories.
+
+Create lists of files to merge. Open make_file_lists.py and modify the following variables (around line 12 to 20):
+- file_size_max: maximum size of combined ntuples. Set to 5GB by default.
+- parent_path_output: Directory where output, combined ntuples will be stored.
+- parent_path_input: Directory where raw output ntuples from crab are stored.
+- dataset_directories: List of all datasets directories in parent_path_input that you'd like to combine into ntuples.
+
+Also modify the parent_path_output on line 16 of setup_condor.py (with the appropriate file/server prefix this time).
+
+Once modifications have been made, run the following scripts to set up condor:
+```
+python make_file_lists.py
+python setup_condor.py
+```
+
+Follow the final direction given by setup_condor.py and change condor/condor_config.script file. Then submit to condor:
+```
+condor_submit condor_confit.script
+```
+
+Monitor status using condor_q. More information about running on condor on LPC can be found [here](http://uscms.org/uscms_at_work/physics/computing/setup/batch_systems.shtml).
+
 ##### Document, Store Results
 
 ## Code Housekeeping
