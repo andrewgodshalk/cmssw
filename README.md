@@ -134,12 +134,20 @@ python crab_auto/get_proj_reports.py <CRAB PROJECT DIRECTORY>
 
 This command will run "crab report" for all tasks in the project directory (the terminal output is informative as well), then copies all of resulting JSON files (from PROJ_DIR/TASK_DIR/results/) to a timestamped reports folder in the PROJ_DIR.
 
-##### Merge report JSON with Golden JSON
+##### Merge report JSON with Golden JSON and Run Brilcalc
 NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
 
+Transfer lumicalc scripts folder and raw JSON files from the crab reports to lxplus. Set up a CMSSW environment, run the setup script, then run the python script with the raw JSON file as input:
+```
+cmsrel CMSSW_8_0_19
+cd CMSSW_8_0_19/src
+cmsenv
+cd -
+source brilcalc_setup.sh
+python get_brilcalc_report.py <RAW JSON FILE>
+```
 
-##### Run Brilcalc
-NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
+The golden JSON file is hardcoded into get_brilcalc_report.py and may need to be updated.
 
 ##### Document, Store Results
 
@@ -173,7 +181,12 @@ condor_submit condor_confit.script
 
 Monitor status using condor_q. More information about running on condor on LPC can be found [here](http://uscms.org/uscms_at_work/physics/computing/setup/batch_systems.shtml).
 
-##### Document, Store Results
+##### More information to record
+Get the number of events processed for each ntuple by using merge_scripts/get_event_counts_from_ntuple.py with the ntuple file location as an option. Working from the merge_scripts folder, for example:
+```
+python get_event_counts_from_ntuple.py /store/group/leptonjets/noreplica/godshalk/2017-01_ZJNtuples2016/
+```
+The script will output bin value of the "Count" histogram and the file name of each ntuple in the input directory. The counts are important for calculating weights for MC.
 
 ## Code Housekeeping
 
