@@ -173,7 +173,12 @@ condor_submit condor_confit.script
 
 Monitor status using condor_q. More information about running on condor on LPC can be found [here](http://uscms.org/uscms_at_work/physics/computing/setup/batch_systems.shtml).
 
-##### Document, Store Results
+##### More information to record
+Get the number of events processed for each ntuple by using merge_scripts/get_event_counts_from_ntuple.py with the ntuple file location as an option. Working from the merge_scripts folder, for example:
+```
+python get_event_counts_from_ntuple.py /store/group/leptonjets/noreplica/godshalk/2017-01_ZJNtuples2016/
+```
+The script will output bin value of the "Count" histogram and the file name of each ntuple in the input directory. The counts are important for calculating weights for MC.
 
 ## Code Housekeeping
 
