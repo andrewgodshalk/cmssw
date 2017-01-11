@@ -13,11 +13,16 @@ from eos_hadd_functions import make_files_and_sizes_list, make_partitioned_file_
 
 file_size_max = 5*10**9   # Maximimum size of combined ntuple files.
 # Input and output paths.
-parent_path_input  = "/store/group/leptonjets/noreplica/godshalk/2016-12_ZJNtuples2016/crab_output/"
+parent_path_input  = "/store/user/yokugawa/ZC_2016_no2/DoubleEG/"
 parent_path_output = "/store/group/leptonjets/noreplica/godshalk/2017-01_ZJNtuples2016/"
 dataset_directories = [
-        "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8",
-        "DYJetsToLL_M-50_TuneCUETP8M1_13TeV-madgraphMLM-pythia8",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016B-PromptReco-v1",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016B-PromptReco-v2",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016C-PromptReco-v2",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016D-PromptReco-v2",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016E-PromptReco-v2",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016F-PromptReco-v1",
+        "ZC2016_11_Run2016_no2_DoubleEG__Run2016G-PromptReco-v1",
 ]
 
 # Handle command line input

@@ -39,7 +39,7 @@ def make_files_and_sizes_list(path, fn_outputFileList, eos=True):
 
     # Split file info into only file and size.
     fileAndSize = []
-    if os.path.isfile('./{}'.format(fn_outputFileList)) : os.system('rm '+fn_outputFileList)
+    #if os.path.isfile('./{}'.format(fn_outputFileList)) : os.system('rm '+fn_outputFileList)
     for fileInfo in rawFileList:
 	fileInfo = fileInfo.replace('\n','')   # Get rid of return characters.
 	if fileInfo.find('log.tar.gz') != -1: continue   # skip log files.
