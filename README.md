@@ -134,12 +134,20 @@ python crab_auto/get_proj_reports.py <CRAB PROJECT DIRECTORY>
 
 This command will run "crab report" for all tasks in the project directory (the terminal output is informative as well), then copies all of resulting JSON files (from PROJ_DIR/TASK_DIR/results/) to a timestamped reports folder in the PROJ_DIR.
 
-##### Merge report JSON with Golden JSON
+##### Merge report JSON with Golden JSON and Run Brilcalc
 NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
 
+Transfer lumicalc scripts folder and raw JSON files from the crab reports to lxplus. Set up a CMSSW environment, run the setup script, then run the python script with the raw JSON file as input:
+```
+cmsrel CMSSW_8_0_19
+cd CMSSW_8_0_19/src
+cmsenv
+cd -
+source brilcalc_setup.sh
+python get_brilcalc_report.py <RAW JSON FILE>
+```
 
-##### Run Brilcalc
-NOTE: Following steps completed on LXPLUS. Have not tested on LPC.
+The golden JSON file is hardcoded into get_brilcalc_report.py and may need to be updated.
 
 ##### Document, Store Results
 
