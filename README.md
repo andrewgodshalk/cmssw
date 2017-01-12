@@ -121,6 +121,8 @@ python crab_auto/resubmit_project_tasks.py <CRAB PROJECT DIRECTORY>
 ```
 
 ## Calculating Processed Luminosity (DATA ONLY)
+2017-01-12 - This currently CAN NOT WORK if the dataset hasn't been COMPLETELY processed. Due to the Framework Job Report not being set up correctly for Heppy, crab report is unable to do the proper calculations. See [conversation](https://hypernews.cern.ch/HyperNews/CMS/get/computing-tools/2515.html) in computing hypernews for details.
+
 Alright. Your data projects are in some state of completion. Time to calculate the integratd luminosity you succesfully processed. You should be able to run crab report even if your project has some failed jobs or has completed running.
 
 NOTE: It might be best to calculate luminosity after all jobs have completed and you've already merged your ntuples, so there is no discrepancy caused by jobs completing after one or the other step.
