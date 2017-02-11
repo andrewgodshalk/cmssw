@@ -581,9 +581,11 @@ class VHbbAnalyzer( Analyzer ):
         event.jetsForHiggs = [x for x in event.cleanJets if self.cfg_ana.higgsJetsPreSelection(x) ]
         event.jetsForHiggsAll = [x for x in event.cleanJetsAll if self.cfg_ana.higgsJetsPreSelection(x) ]
         if not self.cfg_ana.passall:
-            if not  ( len(event.jetsForHiggsAll) >= 2  or (len(event.cleanJets) == 1 and event.cleanJets[0].pt() > self.cfg_ana.singleJetThreshold ) ) :
-                return False
-            if event.Vtype < 0 and not ( sum(x.pt() > 30 for x in event.jetsForHiggsAll) >= 4 or sum(x.pt() for x in event.jetsForHiggsAll[:4]) > self.cfg_ana.sumPtThreshold ):
+        #A    if not  ( len(event.jetsForHiggsAll) >= 2  or (len(event.cleanJets) == 1 and event.cleanJets[0].pt() > self.cfg_ana.singleJetThreshold ) ) :
+        #A        return False
+        #A    if event.Vtype < 0 and not ( sum(x.pt() > 30 for x in event.jetsForHiggsAll) >= 4 or sum(x.pt() for x in event.jetsForHiggsAll[:4]) > self.cfg_ana.sumPtThreshold ):
+        #A        return False
+            if not event.Vtype in [0,1,2,3,5]:  # If event isn't a contain a Z,W, or at least a valid lepton...
                 return False
         map(lambda x :x.qgl(),event.jetsForHiggsAll[:6])
         map(lambda x :x.qgl(),(x for x in event.jetsForHiggsAll if x.pt() > 30) )

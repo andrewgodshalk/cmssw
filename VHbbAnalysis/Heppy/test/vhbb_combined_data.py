@@ -13,6 +13,7 @@ from vhbb_combined import *
 sample.json="json.txt"
 sample.files=[
     #"root://xrootd.ba.infn.it//store/data/Run2015D/BTagCSV/MINIAOD/16Dec2015-v1/50000/00AF8EB4-70AB-E511-9271-00266CFAE7AC.root"
+    #"root://cms-xrd-global.cern.ch//store/data/Run2016G/DoubleMuon/MINIAOD/03Feb2017-v1/100000/040E06B1-21EB-E611-9C31-001E6758651B.root",
     "root://cms-xrd-global.cern.ch//store/data/Run2016B/SingleMuon/MINIAOD/23Sep2016-v1/70000/3AB8DCD4-7387-E611-B30C-0025904CF766.root"
     #"root://131.169.191.218:1094//store/data/Run2016B/SingleMuon//MINIAOD/PromptReco-v2/000/273/537/00000/6EDA3436-A91F-E611-83EA-02163E014736.root"
     ]

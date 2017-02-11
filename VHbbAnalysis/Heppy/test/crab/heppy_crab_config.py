@@ -2,8 +2,8 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'VHBB_V25_002'
-config.General.workArea = '/scratch/arizzi/crab_sub/crab_projects_V25_002'
+config.General.requestName = 'ZC2017_V25_TEST'
+config.General.workArea = 'crab_projects_ZC2017_V25_TEST'
 config.General.transferLogs=True
 
 config.section_("JobType")
@@ -46,17 +46,20 @@ config.JobType.inputFiles = ['heppy_config.py',
 config.section_("Data")
 config.Data.inputDataset = '/ZH_HToBB_ZToLL_M125_13TeV_amcatnloFXFX_madspin_pythia8/RunIISpring15DR74-Asympt25ns_MCRUN2_74_V9-v1/MINIAODSIM'
 config.Data.inputDBS = 'global'
-#config.Data.splitting = 'FileBased'
-config.Data.splitting = 'EventAwareLumiBased'
-config.Data.unitsPerJob = 50000
+config.Data.splitting = 'FileBased'
+config.Data.unitsPerJob = 1
+config.Data.totalUnits = 2
+#config.Data.splitting = 'EventAwareLumiBased'
+#config.Data.unitsPerJob = 50000
 #config.Data.totalUnits = 8000
 config.Data.allowNonValidInputDataset = True # to run on datasets in PRODUCTION
-config.Data.outLFNDirBase = '/store/group/phys_higgs/hbb/ntuples/V25/'
-config.Data.publication = True
-config.Data.outputDatasetTag = 'VHBB_HEPPY_V25'
+config.Data.outLFNDirBase = '/store/group/leptonjets/noreplica/godshalk/CRABTEST/'
+config.Data.publication = False 
+config.Data.outputDatasetTag = 'ZC2017_V25_TEST'
 
 config.section_("Site")
-config.Site.storageSite = "T2_CH_CERN"
+config.Site.storageSite = "T3_US_FNALLPC"
+#config.Site.storageSite = "T2_CH_CERN"
 #config.Site.storageSite = "T2_IT_Pisa"
 #config.Site.storageSite = "T3_CH_PSI"
 
