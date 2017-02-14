@@ -23,7 +23,7 @@ cmsenv
 
 ##### Check out software from github
 ```
-git cms-merge-topic andrewgodshalk:V25
+git cms-merge-topic -u andrewgodshalk:V25
 ```
 For more information about CMSSW on git, see http://cms-sw.github.io/
 
