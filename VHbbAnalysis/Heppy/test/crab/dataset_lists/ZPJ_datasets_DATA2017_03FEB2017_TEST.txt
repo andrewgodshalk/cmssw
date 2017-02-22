@@ -1,0 +1,2 @@
+/DoubleMuon/Run2016G-03Feb2017-v1/MINIAOD
+/DoubleMuon/Run2016G-23Sep2016-v1/MINIAOD
