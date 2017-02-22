@@ -2,8 +2,8 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'ZC2017_V25_TEST'
-config.General.workArea = 'crab_projects_ZC2017_V25_TEST'
+config.General.requestName = 'ZC2017_V25_MCSUMMER2016_TEST'
+config.General.workArea = 'crab_projects_ZC2017_V25_MCSUMMER2016_TEST'
 config.General.transferLogs=True
 
 config.section_("JobType")
@@ -48,14 +48,15 @@ config.Data.inputDataset = '/ZH_HToBB_ZToLL_M125_13TeV_amcatnloFXFX_madspin_pyth
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
-config.Data.totalUnits = 2
+config.Data.totalUnits = 1 
 #config.Data.splitting = 'EventAwareLumiBased'
 #config.Data.unitsPerJob = 50000
 #config.Data.totalUnits = 8000
 config.Data.allowNonValidInputDataset = True # to run on datasets in PRODUCTION
-config.Data.outLFNDirBase = '/store/group/leptonjets/noreplica/godshalk/CRABTEST/'
+#config.Data.outLFNDirBase = '/store/group/leptonjets/noreplica/godshalk/CRABTEST/'
+config.Data.outLFNDirBase = '/store/group/leptonjets/noreplica/godshalk/2017-02_ZJNtuples2016/CRAB_TEST/'
 config.Data.publication = False 
-config.Data.outputDatasetTag = 'ZC2017_V25_TEST'
+config.Data.outputDatasetTag = 'MCSUMMER2016_TEST'
 
 config.section_("Site")
 config.Site.storageSite = "T3_US_FNALLPC"

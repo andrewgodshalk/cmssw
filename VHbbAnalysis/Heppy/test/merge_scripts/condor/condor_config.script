@@ -10,4 +10,4 @@ Log = ntuplemerge_$(Cluster)_$(Process).log
 notify_user = ${LOGNAME}@FNAL.GOV
 +LENGTH="SHORT"
 x509userproxy = /tmp/x509up_u42382
-Queue 140 
+Queue 126 

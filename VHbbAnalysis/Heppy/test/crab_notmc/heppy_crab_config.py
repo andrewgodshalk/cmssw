@@ -2,8 +2,8 @@ from WMCore.Configuration import Configuration
 config = Configuration()
 
 config.section_("General")
-config.General.requestName = 'ZC2017_V25_TEST'
-config.General.workArea = 'crab_projects_ZC2017_V25_TEST'
+config.General.requestName = 'ZC2017_V25_DATA_RUNG'
+config.General.workArea = 'crab_projects_ZC2017_V25_DATA_RUNG'
 config.General.transferLogs=True
 
 config.section_("JobType")
@@ -50,10 +50,10 @@ config.Data.inputDBS = 'global'
 #config.Data.splitting = 'LumiBased'
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 1
-config.Data.totalUnits = 1
+#config.Data.totalUnits = 1
 config.Data.outLFNDirBase = '/store/group/leptonjets/noreplica/godshalk/CRABTEST/'
 config.Data.publication = False 
-config.Data.outputDatasetTag = 'ZC2017_V25_TEST'
+config.Data.outputDatasetTag = 'ZC2017_V25_DATA_RUNG'
 #only for data
 #config.Data.lumiMask = 'json.txt'
 
