@@ -36,7 +36,15 @@ updatedPatJets = cms.EDProducer("PATJetUpdater",
     # usually the discriminators from the default algos
     # are sufficient
     addTagInfos     = cms.bool(False),
-    tagInfoSources  = cms.VInputTag()
+    tagInfoSources  = cms.VInputTag(),
+   
+    ############################
+    #TEMP small hack
+    addSecondaryVertexInfo  = cms.bool(False),
+    svTagInfos              = cms.string("pfInclusiveSecondaryVertexFinder"), 
+    ipTagInfos              = cms.string("pfImpactParameter"),
+    svComputer              = cms.string("candidateCombinedSecondaryVertexV2Computer")
+    ###########################
 )
 
 

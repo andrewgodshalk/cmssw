@@ -29,6 +29,12 @@
 #include "DataFormats/PatCandidates/interface/UserData.h"
 #include "PhysicsTools/PatAlgos/interface/PATUserDataHelper.h"
 
+///////////////////////
+//TEMP small hack
+#include "RecoBTau/JetTagComputer/interface/GenericMVAJetTagComputer.h"
+#include "RecoBTau/JetTagComputer/interface/GenericMVAJetTagComputerWrapper.h"
+///////////////////////
+
 namespace pat {
 
   class PATJetUpdater : public edm::stream::EDProducer<> {
@@ -61,11 +67,21 @@ namespace pat {
 
       GreaterByPt<Jet> pTComparator_;
 
+
+
       bool useUserData_;
       pat::PATUserDataHelper<pat::Jet>      userDataHelper_;
       //
       bool printWarning_; // this is introduced to issue warnings only once per job
-
+      
+      ///////////////////////////
+      //TEMP small hack
+      bool                       addSecondaryVertexInfo_;
+      std::string                svTagInfos_ ;
+      std::string                ipTagInfos_ ;
+      std::string                svComputer_ ;
+      const GenericMVAJetTagComputer *computer ;
+      ///////////////////////////
   };
 
 
