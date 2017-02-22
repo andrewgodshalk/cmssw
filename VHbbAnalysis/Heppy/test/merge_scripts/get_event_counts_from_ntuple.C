@@ -49,4 +49,5 @@ void get_event_counts_from_ntuple()
 	nCounts += count[0];
     }
     cout << "Files: " << nFiles << "\t Total Counts: " << nCounts << endl;
+    cout << "Type \".q\" to exit." << endl;
 }

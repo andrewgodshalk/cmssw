@@ -724,17 +724,54 @@ def initialize(**kwargs):
     # recreate slimmedJets collection
     process.load("Configuration.StandardSequences.MagneticField_cff")
     process.load("Configuration.Geometry.GeometryRecoDB_cff")
+
     from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
     updateJetCollection(
       process,
       jetSource = cms.InputTag('slimmedJets','','PAT') if isMC else  cms.InputTag('slimmedJets','','RECO'),
       jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
-      btagDiscriminators = ['deepFlavourCMVAJetTags:probudsg','deepFlavourCMVAJetTags:probb', 'deepFlavourCMVAJetTags:probc', 'deepFlavourCMVAJetTags:probbb', 'deepFlavourCMVAJetTags:probcc','deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'],
+      btagDiscriminators = ['pfNegativeCombinedInclusiveSecondaryVertexV2BJetTags', 'deepFlavourCMVAJetTags:probudsg','deepFlavourCMVAJetTags:probb', 'deepFlavourCMVAJetTags:probc', 'deepFlavourCMVAJetTags:probbb', 'deepFlavourCMVAJetTags:probcc','deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'],
+      btagInfos = ['pfInclusiveSecondaryVertexFinderTagInfos','pfSecondaryVertexTagInfos'],
 #     runIVF=True,
      btagPrefix = 'new' # optional, in case interested in accessing both the old and new discriminator values
     )
     process.slimmedJets = process.slimmedJets=process.updatedPatJetsTransientCorrected.clone()
+    process.slimmedJets.addTagInfos = cms.bool(True)
+
     process.OUT.outputCommands.append("keep *_slimmedJets_*_EX")
+    process.OUT.outputCommands.append("keep *_newpfInclusiveSecondaryVertexFinderTagInfos_*_EX")
+    process.OUT.outputCommands.append("keep *_newpfSecondaryVertexTagInfos_*_EX")
+
+#########################################
+## 2017-02-20 INSERTION TEST
+## Copied from https://github.com/andrewgodshalk/cmssw/blob/V25/PhysicsTools/PatAlgos/python/slimming/miniAOD_tools.py#L130
+## - Didn't work in the slightest... need to find an alternate route.
+#    if not hasattr( process, 'pfImpactParameterTagInfos' ):
+#        process.load('RecoBTag.ImpactParameter.pfImpactParameterTagInfos_cfi')
+#    if not hasattr( process, 'pfSecondaryVertexTagInfos' ):
+#        process.load('RecoBTag.SecondaryVertex.pfSecondaryVertexTagInfos_cfi')
+    process.slimmedJets.userData.userFunctions = cms.vstring(
+        '?(tagInfoCandSecondaryVertex("newpfSecondaryVertex").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfSecondaryVertex").secondaryVertex(0).p4.M):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).p4.M):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).numberOfSourceCandidatePtrs):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").flightDistance(0).value):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").flightDistance(0).significance):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).p4.x):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).p4.y):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).p4.z):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).vertex.x):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).vertex.y):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").secondaryVertex(0).vertex.z):(0)',
+        '?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertices()>0)?(tagInfoCandSecondaryVertex("newpfInclusiveSecondaryVertexFinder").nVertexCandidates()):(0)',
+    )
+    process.slimmedJets.userData.userFunctionLabels = cms.vstring('newVtxMass','incVtxMass','incVtxNtracks','incVtx3DVal','incVtx3DSig','incVtxPx','incVtxPy','incVtxPz','incVtxPosX','incVtxPosY','incVtxPosZ','incVtxNcands')
+#    process.slimmedJets.userData.userFunctionLabels = cms.vstring('vtxMass_new', 'vtxMass_inc')
+    process.slimmedJets.tagInfoSources = cms.VInputTag(cms.InputTag("newpfSecondaryVertexTagInfos"), cms.InputTag("newpfInclusiveSecondaryVertexFinderTagInfos"))
+#    process.slimmedJets.tagInfoSources = cms.VInputTag(cms.InputTag("pfSecondaryVertexTagInfos"))
+#    process.slimmedJets.addTagInfos = cms.bool(True)
+
+
+#########################################
 
     #Muon rereco issue
     process.badGlobalMuonTagger = cms.EDFilter("BadGlobalMuonTagger",

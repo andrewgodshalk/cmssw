@@ -13,7 +13,7 @@ system('rm tmp.txt condor/hadd_script.py')
 
 fn_out_script = "condor/hadd_script.py"
 filelist_dir = "merge_filelists"
-parent_path_output = "root://cmseos.fnal.gov://store/group/leptonjets/noreplica/godshalk/2017-01_ZJNtuples2016/"
+parent_path_output = "root://cmseos.fnal.gov://store/group/leptonjets/noreplica/godshalk/2017-02_ZJNtuples2016/"
 
 # Set up temporary file with output of ls command on merge_filelists folder.
 system('ls -1 '+filelist_dir+' >> tmp.txt')

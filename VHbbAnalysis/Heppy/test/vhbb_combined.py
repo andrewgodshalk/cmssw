@@ -12,7 +12,7 @@ from VHbbAnalysis.Heppy.GenHFHadronMatcher import GenHFHadronMatcher
 
 #Add Rereco muon filter
 MuonBitAna = cfg.Analyzer(
-    verbose = False,
+        verbose = False,
     class_object = TriggerBitAnalyzer,
     triggerBits =     {"MUON" : [
         "noBadGlobalMuons",
@@ -129,10 +129,10 @@ if not boostana.skip_ca15:
                                                                              30,
                                                                              help="Subjets of CA, R=1.5, pT > 200 GeV, BDRS, filterjets")
 
-    treeProducer.collections["httCandidates"] = NTupleCollection("httCandidates",
-                                                                 httType,
-                                                                 10,
-                                                                 help="OptimalR HEPTopTagger Candidates")
+#    treeProducer.collections["httCandidates"] = NTupleCollection("httCandidates",
+#                                                                 httType,
+#                                                                 10,
+#                                                                 help="OptimalR HEPTopTagger Candidates")
 		
 
 # Add b-Tagging Information
