@@ -1,0 +1,13 @@
+universe = vanilla
+Executable = condor_executable.sh
+Arguments = $(Process)
+Should_Transfer_Files = YES
+WhenToTransferOutput = ON_EXIT
+Transfer_Input_Files = merge_filelists.tgz, hadd_script.py 
+Output = ntuplemerge_$(Cluster)_$(Process).stdout
+Error = ntuplemerge_$(Cluster)_$(Process).stderr
+Log = ntuplemerge_$(Cluster)_$(Process).log
+notify_user = ${LOGNAME}@FNAL.GOV
++LENGTH="SHORT"
+x509userproxy = /tmp/x509up_u42382
+Queue 126 
