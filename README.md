@@ -27,6 +27,11 @@ git cms-merge-topic -u andrewgodshalk:V25
 ```
 For more information about CMSSW on git, see http://cms-sw.github.io/
 
+##### Compile
+```
+scram b -j 16
+```
+
 ##### Check the upstream for updates (optional, for development purposes)
 Taken from https://github.com/vhbb/cmssw/tree/V25
 See more documentation at https://twiki.cern.ch/twiki/bin/viewauth/CMS/VHiggsBB#Ntuple_production_campaigns_for
@@ -38,11 +43,6 @@ git diff vhbb/V25
 vhbb/V25 is the latest branch as of this writing. Check the documentation, or with the VHbb group, to see if there is a more recent version. Resolve conflicts, commit, and continue:
 ```
 git merge vhbb/V25
-```
-
-##### Compile
-```
-scram b -j 16
 ```
 
 ## Processing with CRAB
