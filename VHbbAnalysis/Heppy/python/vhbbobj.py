@@ -82,7 +82,7 @@ leptonTypeVHbb = NTupleObjectType("leptonTypeVHbb", baseObjectTypes = [ leptonTy
 
 tauTypeVHbb = NTupleObjectType("tauTypeVHbb", baseObjectTypes = [ tauType ], variables = [
     NTupleVariable("idxJetMatch", lambda x : x.jetIdx, int, help="index of the matching jet"),
-    NTupleVariable("genMatchType", lambda x : x.genMatchType, int,mcOnly=True, help="..FILLME PLEASE..")
+#A    NTupleVariable("genMatchType", lambda x : x.genMatchType, int,mcOnly=True, help="..FILLME PLEASE..")
 ])
 
 ##------------------------------------------  
@@ -153,27 +153,37 @@ jetTypeVHbb = NTupleObjectType("jet",  baseObjectTypes = [ jetType ], variables 
     NTupleVariable("trackJetPt_IVF", lambda x : x.userFloat("trackJetPt_IVF"), mcOnly=False, help="track jet pT from btag IVF"),
     #################################
 
+    # Original, standard vtx info
     NTupleVariable("vtxMass",   lambda x : x.userFloat("vtxMass"), mcOnly=False, help="vtxMass from btag"),
-    NTupleVariable("newVtxMass",   lambda x : x.userFloat("newVtxMass"), mcOnly=False, help="vtxMass from new btag"),
     NTupleVariable("vtxNtracks",   lambda x : x.userFloat("vtxNtracks"), mcOnly=False, help="number of tracks at vertex from btag"),
     NTupleVariable("vtxPt",   lambda x : sqrt(x.userFloat("vtxPx")**2 + x.userFloat("vtxPy")**2), mcOnly=False, help="pt of vertex from btag"),
+    NTupleVariable("vtx3DVal",   lambda x : x.userFloat("vtx3DVal"), mcOnly=False, help="decay len of vertex from btag"),
     NTupleVariable("vtx3DSig",   lambda x : x.userFloat("vtx3DSig"), mcOnly=False, help="decay len significance of vertex from btag"),
     NTupleVariable("vtxPx",   lambda x : x.userFloat("vtxPx"), mcOnly=False, help="px of vertex from btag"),
     NTupleVariable("vtxPy",   lambda x : x.userFloat("vtxPy"), mcOnly=False, help="py of vertex from btag"),
     NTupleVariable("vtxPz",   lambda x : x.userFloat("vtxPz"), mcOnly=False, help="pz of vertex from btag"),
-    NTupleVariable("vtx3DVal",   lambda x : x.userFloat("vtx3DVal"), mcOnly=False, help="decay len of vertex from btag"),
     NTupleVariable("vtxPosX",   lambda x : x.userFloat("vtxPosX"), mcOnly=False, help="X coord of vertex from btag"),
     NTupleVariable("vtxPosY",   lambda x : x.userFloat("vtxPosY"), mcOnly=False, help="Y coord of vertex from btag"), 
     NTupleVariable("vtxPosZ",   lambda x : x.userFloat("vtxPosZ"), mcOnly=False, help="Z coord of vertex from btag"),
 
+    # New, recalced pfSecondaryVertex info
+    NTupleVariable("newVtxMass" , lambda x : x.userFloat("newVtxMass" ), mcOnly=False, help="vtxMass from recalc pfSV"),
+    NTupleVariable("newVtx2DVal", lambda x : x.userFloat("newVtx2DVal"), mcOnly=False, help="2D flight distance from recalc pfSV"),
+    NTupleVariable("newVtx2DSig", lambda x : x.userFloat("newVtx2DSig"), mcOnly=False, help="2D flight distance significance from recalc pfSV"),
+    NTupleVariable("newVtx3DVal", lambda x : x.userFloat("newVtx3DVal"), mcOnly=False, help="3D flight distance from recalc pfSV"),
+    NTupleVariable("newVtx3DSig", lambda x : x.userFloat("newVtx3DSig"), mcOnly=False, help="3D flight distance significance from recalc pfSV"),
+
+    # pfInclusiveSecondaryVertex info
     NTupleVariable("incVtxMass",   lambda x : x.userFloat("incVtxMass"), mcOnly=False, help="vtxMass from new incbtag"),
     NTupleVariable("incVtxNtracks",   lambda x : x.userFloat("incVtxNtracks"), mcOnly=False, help="number of tracks at vertex from btag"),
+    NTupleVariable("incVtx2DVal", lambda x : x.userFloat("incVtx2DVal"), mcOnly=False, help="2D flight distance from pfIncSV"),
+    NTupleVariable("incVtx2DSig", lambda x : x.userFloat("incVtx2DSig"), mcOnly=False, help="2D flight distance significance from pfIncSV"),
+    NTupleVariable("incVtx3DVal", lambda x : x.userFloat("incVtx3DVal"), mcOnly=False, help="3D flight distance from pfIncSV"),
+    NTupleVariable("incVtx3DSig", lambda x : x.userFloat("incVtx3DSig"), mcOnly=False, help="3D flight distance significance from pfIncSV"),
     NTupleVariable("incVtxPt",   lambda x : sqrt(x.userFloat("incVtxPx")**2 + x.userFloat("vtxPy")**2), mcOnly=False, help="pt of vertex from btag"),
-    NTupleVariable("incVtx3DSig",   lambda x : x.userFloat("incVtx3DSig"), mcOnly=False, help="decay len significance of vertex from btag"),
     NTupleVariable("incVtxPx",   lambda x : x.userFloat("incVtxPx"), mcOnly=False, help="px of vertex from btag"),
     NTupleVariable("incVtxPy",   lambda x : x.userFloat("incVtxPy"), mcOnly=False, help="py of vertex from btag"),
     NTupleVariable("incVtxPz",   lambda x : x.userFloat("incVtxPz"), mcOnly=False, help="pz of vertex from btag"),
-    NTupleVariable("incVtx3DVal",   lambda x : x.userFloat("incVtx3DVal"), mcOnly=False, help="decay len of vertex from btag"),
     NTupleVariable("incVtxPosX",   lambda x : x.userFloat("incVtxPosX"), mcOnly=False, help="X coord of vertex from btag"),
     NTupleVariable("incVtxPosY",   lambda x : x.userFloat("incVtxPosY"), mcOnly=False, help="Y coord of vertex from btag"), 
     NTupleVariable("incVtxPosZ",   lambda x : x.userFloat("incVtxPosZ"), mcOnly=False, help="Z coord of vertex from btag"),
