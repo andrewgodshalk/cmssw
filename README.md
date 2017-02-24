@@ -72,8 +72,13 @@ Check resulting Loop_* folders for resulting tree.root.
 
 ##### Record Dataset Information
 
-TO DO: Include information about running automation scripts, recording DAS information.
-TO DO: Include information about datasets, where lists are created from.
+An automation script has been set up in the crab_auto directory to gather information about each dataset with das_client --query. Output is a tab-separated table of dataset name, num. files, num events, dataset size (B), and dataset size (GB). From the VHbbAnalysis/Heppy/test directory:
+
+```
+python crab_auto/get_dataset_info_from_das.py crab/dataset_lists/<DATASET LIST FILE>
+```
+
+CMS Dataset information can also be found on the [DAS page](https://cmsweb.cern.ch/das/).
 
 ##### To run over crab...
 ```
