@@ -17,6 +17,17 @@
 
 #include "FWCore/Utilities/interface/transform.h"
 
+///////////////////////////////
+//TEMP small hack
+#include "FWCore/Framework/interface/ESHandle.h"
+#include "DataFormats/BTauReco/interface/CandIPTagInfo.h"
+#include "DataFormats/BTauReco/interface/TrackIPTagInfo.h"
+#include "DataFormats/BTauReco/interface/SecondaryVertexTagInfo.h"
+#include "DataFormats/Candidate/interface/VertexCompositePtrCandidate.h"
+#include "RecoBTau/JetTagComputer/interface/JetTagComputer.h"
+#include "RecoBTau/JetTagComputer/interface/JetTagComputerRecord.h"
+///////////////////////////////
+
 #include <vector>
 #include <memory>
 #include <algorithm>
@@ -35,7 +46,7 @@ PATJetUpdater::PATJetUpdater(const edm::ParameterSet& iConfig) :
   if( addJetCorrFactors_ ) {
     jetCorrFactorsTokens_ = edm::vector_transform(iConfig.getParameter<std::vector<edm::InputTag> >( "jetCorrFactorsSource" ), [this](edm::InputTag const & tag){return mayConsume<edm::ValueMap<JetCorrFactors> >(tag);});
   }
-  addBTagInfo_ = iConfig.getParameter<bool>( "addBTagInfo" );
+  addBTagInfo_ = iConfig.getParameter<bool>( "addBTagInfo" ); 
   addDiscriminators_ = iConfig.getParameter<bool>( "addDiscriminators" );
   discriminatorTags_ = iConfig.getParameter<std::vector<edm::InputTag> >( "discriminatorSources" );
   discriminatorTokens_ = edm::vector_transform(discriminatorTags_, [this](edm::InputTag const & tag){return mayConsume<reco::JetFloatAssociation::Container>(tag);});
@@ -76,6 +87,23 @@ PATJetUpdater::PATJetUpdater(const edm::ParameterSet& iConfig) :
   if ( useUserData_ ) {
     userDataHelper_ = PATUserDataHelper<Jet>(iConfig.getParameter<edm::ParameterSet>("userData"), consumesCollector());
   }
+  
+  /////////////////////////////////////// 
+  //TEMP small hack 
+  addSecondaryVertexInfo_ = iConfig.getParameter<bool>( "addSecondaryVertexInfo" );
+  svTagInfos_               = iConfig.getParameter<std::string>("svTagInfos");
+  ipTagInfos_               = iConfig.getParameter<std::string>("ipTagInfos");  
+  svComputer_               = iConfig.getParameter<std::string>("svComputer");
+  computer = 0 ;  
+
+  std::cout << "\n================================================" ;
+  std::cout << "\n Setting for adding vertex information" ;
+  std::cout << "\n addSecondaryVertexInfo: " << addSecondaryVertexInfo_ ;
+  std::cout << "\n svTagInfos: " << svTagInfos_ ;
+  std::cout << "\n ipTagInfos: " << ipTagInfos_ ;
+  std::cout << "\n svComputer: " << svComputer_ << "\n";
+  ////////////////////////////////////////
+
   // produces vector of jets
   produces<std::vector<Jet> >();
   produces<edm::OwnVector<reco::BaseTagInfo> > ("tagInfos");
@@ -119,6 +147,14 @@ void PATJetUpdater::produce(edm::Event & iEvent, const edm::EventSetup & iSetup)
     }
   }
 
+  //////////////////////////////////////////////
+  //TEMP small hack
+  edm::ESHandle<JetTagComputer> computerHandle;
+  iSetup.get<JetTagComputerRecord>().get(svComputer_.c_str(), computerHandle );
+  computer = dynamic_cast<const GenericMVAJetTagComputer*>( computerHandle.product() );
+  ///////////////////////////////////////////////
+  
+  ////////////////////////////////////////////////
   // loop over jets
   std::auto_ptr< std::vector<Jet> > patJets ( new std::vector<Jet>() );
 
@@ -196,8 +232,61 @@ void PATJetUpdater::produce(edm::Event & iEvent, const edm::EventSetup & iSetup)
 	      ajet.addTagInfo(tagInfoLabels_[k], tagInfoFwdPtr );
 	    }
 	  }
-        }
+ 
+        } //if (addTagInfos_)
+    } //if (addBTagInfo_)
+
+    ////////////////////////////////////////////////////
+    //TEMP small hack 
+    int vtxCat(-10) ;
+    int nVtx(-10) ;
+    float vtxMass(-10) ;
+    int vtxNTracks(-10) ;
+    float vtxEnergyRatio(-10) ;
+    float vtxJetDeltaR(-10) ;
+    float flightDistance2dVal(-10) ;
+    float flightDistance2dSig(-10) ;
+    float flightDistance3dVal(-10) ;
+    float flightDistance3dSig(-10) ;
+    float trackJetPt(-10) ;
+    if (addSecondaryVertexInfo_) {
+      const reco::TemplatedSecondaryVertexTagInfo<reco::CandIPTagInfo,reco::VertexCompositePtrCandidate> *svTagInfo = ajet.tagInfoCandSecondaryVertex(svTagInfos_.c_str()); 
+      const reco::CandIPTagInfo *ipTagInfo = ajet.tagInfoCandIP(ipTagInfos_.c_str());
+      std::vector<const reco::BaseTagInfo*>  baseTagInfos;
+      JetTagComputer::TagInfoHelper helper(baseTagInfos);
+      baseTagInfos.push_back( ipTagInfo );
+      baseTagInfos.push_back( svTagInfo );
+      
+      // TaggingVariables
+      reco::TaggingVariableList vars = computer->taggingVariables(helper);
+
+      vtxCat         = ( vars.checkTag(reco::btau::vertexCategory) ? vars.get(reco::btau::vertexCategory) : -10); //0: 0 has vertex, 1 pseudo vertex, 2 no reconstructed vertex
+      nVtx  = ( vars.checkTag(reco::btau::jetNSecondaryVertices) ? vars.get(reco::btau::jetNSecondaryVertices) : -10 );
+      vtxMass        = ( vars.checkTag(reco::btau::vertexMass) ? vars.get(reco::btau::vertexMass) : -10 );
+      vtxNTracks     = ( vars.checkTag(reco::btau::vertexNTracks) ? vars.get(reco::btau::vertexNTracks) : -10 );
+      vtxEnergyRatio = ( vars.checkTag(reco::btau::vertexEnergyRatio) ? vars.get(reco::btau::vertexEnergyRatio) : -10 );
+      vtxJetDeltaR   = ( vars.checkTag(reco::btau::vertexJetDeltaR) ? vars.get(reco::btau::vertexJetDeltaR) : -10 );
+      flightDistance2dVal         = ( vars.checkTag(reco::btau::flightDistance2dVal) ? vars.get(reco::btau::flightDistance2dVal) : -10 );
+      flightDistance2dSig         = ( vars.checkTag(reco::btau::flightDistance2dSig) ? vars.get(reco::btau::flightDistance2dSig) : -10 );
+      flightDistance3dVal         = ( vars.checkTag(reco::btau::flightDistance3dVal) ? vars.get(reco::btau::flightDistance3dVal) : -10 );
+      flightDistance3dSig         = ( vars.checkTag(reco::btau::flightDistance3dSig) ? vars.get(reco::btau::flightDistance3dSig) : -10 );
+      trackJetPt                  = ( vars.checkTag(reco::btau::trackJetPt) ? vars.get(reco::btau::trackJetPt) : -10 );
+      //std::cout << "\n Vertex from CSVv2: " << vtxCat << "  " << nVtx << "  " << vtxMass << "  " << vtxNTracks << "  " << vtxEnergyRatio << "  " << vtxJetDeltaR ; 
     }
+    //if (ajet.hasUserFloat("vtxMassCorr_IVF")) std::cout << "\n Before adding: " << ajet.userFloat("vtxMassCorr_IVF") ;
+    ajet.addUserInt("vtxCat_IVF", vtxCat, true);
+    ajet.addUserInt("nVtx_IVF", nVtx, true) ;
+    ajet.addUserFloat("vtxMassCorr_IVF", vtxMass, true);
+    ajet.addUserInt("vtxNTracks_IVF", vtxNTracks, true) ;
+    ajet.addUserFloat("vtxEnergyRatio_IVF", vtxEnergyRatio, true) ;
+    ajet.addUserFloat("vtxJetDeltaR_IVF", vtxJetDeltaR, true) ;
+    ajet.addUserFloat("vtx2DVal_IVF", flightDistance2dVal, true) ;
+    ajet.addUserFloat("vtx2DSig_IVF", flightDistance2dSig, true) ;
+    ajet.addUserFloat("vtx3DVal_IVF", flightDistance3dVal, true) ;
+    ajet.addUserFloat("vtx3DSig_IVF", flightDistance3dSig, true) ;
+    ajet.addUserFloat("trackJetPt_IVF", trackJetPt, true) ;
+    //std::cout << "\n After adding: " << ajet.userFloat("vtxMassCorr_IVF") ;
+    ////////////////////////////////////////////////////////
 
     if ( useUserData_ ) {
       userDataHelper_.add( ajet, iEvent, iSetup );
@@ -247,7 +336,15 @@ void PATJetUpdater::fillDescriptions(edm::ConfigurationDescriptions & descriptio
   edm::ParameterSetDescription userDataPSet;
   PATUserDataHelper<Jet>::fillDescription(userDataPSet);
   iDesc.addOptional("userData", userDataPSet);
-
+  
+  ////////////////////////////////////////
+  //TEMP small hacks
+  iDesc.add<bool>("addSecondaryVertexInfo",true);
+  iDesc.add<std::string>("svTagInfos","") ;
+  iDesc.add<std::string>("ipTagInfos","") ;
+  iDesc.add<std::string>("svComputer","") ;
+  /////////////////////////////////////////
+  
   descriptions.add("PATJetUpdater", iDesc);
 }
 

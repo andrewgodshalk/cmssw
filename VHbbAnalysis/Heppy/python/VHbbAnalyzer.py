@@ -9,6 +9,7 @@ from VBFblikelihood import VBFblikelihood
 from ZllKinematicFit import ZllKinematicFit
 import itertools
 import ROOT
+
 def Boost(self,boost):
    bx=boost.X()
    by=boost.Y()
@@ -23,6 +24,7 @@ def Boost(self,boost):
    self.Z() + gamma2*bp*bz + gamma*bz*self.T(),
    (gamma*(self.T() + bp)))
    return self
+
 class VHbbAnalyzer( Analyzer ):
     '''Analyze VH events
     '''
@@ -39,6 +41,7 @@ class VHbbAnalyzer( Analyzer ):
             self.handles['PDFWeightsProducer'] = AutoHandle( ('PDFWeightsProducer','outputHessianWeights','EX'), 'std::vector<float>' )
             self.handles['HTXSRivetProducer_cat0'] = AutoHandle( ('rivetProducerHTXS','stage0cat','EX'), 'int' )
             self.handles['HTXSRivetProducer_cat1'] = AutoHandle( ('rivetProducerHTXS','stage1cat','EX'), 'int' )    
+
     def addNewBTag(self,event):
         newtags =  self.handles['btag'].product()
         for i in xrange(0,len(newtags)) :
@@ -68,21 +71,21 @@ class VHbbAnalyzer( Analyzer ):
             #for LHE_pdf in range(2):
             #   setattr(self, "inputCounterWeightedLHEWeightPdf_"+str(LHE_pdf), ROOT.TH1F("CountWeightedLHEWeightPdf_"+str(LHE_pdf),"Count with gen weight x LHE_weights_pdf["+str(LHE_pdf)+"] and pu weight",1,0,2))
 
-        self.regressions={}
-	self.regressionVBF={}
-	for re in self.cfg_ana.regressionVBF :
-		print "Initialize regression ",re
-		regression_VBF = JetRegression(re["weight"],re["name"])
-		for i in re["vtypes"] :
-                  self.regressionVBF[i] = regression_VBF
-        for re in self.cfg_ana.regressions :
-            print "Initialize regression ",re
-            regression = JetRegression(re["weight"],re["name"])              
-            for i in re["vtypes"] :
-                self.regressions[i] = regression
-        blike=self.cfg_ana.VBFblikelihood
-        print "Initialize VBF blikelihood ", blike
-        self.blikelihood = VBFblikelihood(blike["weight"],blike["name"])
+        #A self.regressions={}
+	#A self.regressionVBF={}
+	#A for re in self.cfg_ana.regressionVBF :
+	#A 	print "Initialize regression ",re
+	#A 	regression_VBF = JetRegression(re["weight"],re["name"])
+	#A 	for i in re["vtypes"] :
+        #A           self.regressionVBF[i] = regression_VBF
+        #A for re in self.cfg_ana.regressions :
+        #A     print "Initialize regression ",re
+        #A     regression = JetRegression(re["weight"],re["name"])              
+        #A     for i in re["vtypes"] :
+        #A         self.regressions[i] = regression
+        #A blike=self.cfg_ana.VBFblikelihood
+        #A print "Initialize VBF blikelihood ", blike
+        #A self.blikelihood = VBFblikelihood(blike["weight"],blike["name"])
         self.est = ZllKinematicFit() 
 
     def doZllKinematicFit(self, event, analysis, debug=False):
@@ -590,23 +593,23 @@ class VHbbAnalyzer( Analyzer ):
         map(lambda x :x.qgl(),event.jetsForHiggsAll[:6])
         map(lambda x :x.qgl(),(x for x in event.jetsForHiggsAll if x.pt() > 30) )
 
-	self.doHiggsHighCSV(event)
-	self.doHiggsHighCMVAV2(event)
-	self.doHiggsHighPt(event)
-        self.doHiggsAddJetsdR08(event)
-        self.searchISRforVH(event)
-        self.doVHRegression(event)
-        self.doVBFblikelihood(event)
+	#A self.doHiggsHighCSV(event)
+	#A self.doHiggsHighCMVAV2(event)
+	#A self.doHiggsHighPt(event)
+        #A self.doHiggsAddJetsdR08(event)
+        #A self.searchISRforVH(event)
+        #A self.doVHRegression(event)
+        #A self.doVBFblikelihood(event)
 
         self.fillTauIndices(event)
         self.addPullVector(event)
 
-	if getattr(self.cfg_ana,"doVBF", True) :
-	    self.doVBF(event)
-        if getattr(self.cfg_ana,"doSoftActivityVH", False) :
-            self.doSoftActivityVH(event)
-        if getattr(self.cfg_ana,"doSoftActivityEWK", False) :
-            self.doSoftActivityEWK(event)
+	#A if getattr(self.cfg_ana,"doVBF", True) :
+	#A     self.doVBF(event)
+        #A if getattr(self.cfg_ana,"doSoftActivityVH", False) :
+        #A     self.doSoftActivityVH(event)
+        #A if getattr(self.cfg_ana,"doSoftActivityEWK", False) :
+        #A     self.doSoftActivityEWK(event)
 
         self.doQuickTkMET(event)
 

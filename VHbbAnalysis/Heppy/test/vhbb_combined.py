@@ -23,18 +23,18 @@ sequence.insert(sequence.index(TrigAna),MuonBitAna)
 
 
 # Add Boosted Information
-boostana=cfg.Analyzer(
-    verbose=False,
-    class_object=AdditionalBoost,
-)
+#A boostana=cfg.Analyzer(
+#A verbose=False,
+#A     class_object=AdditionalBoost,
+#A )
 
 #boostana.GT = "Fall15_25nsV2_DATA" 
-boostana.GT = "Summer16_23Sep2016GV3_DATA" # we do L2L3 for MC and L2L3Res for data. Can therefor use data GT for both
-boostana.jecPath = os.environ['CMSSW_BASE']+"/src/VHbbAnalysis/Heppy/data/jec"
-boostana.isMC = sample.isMC
-boostana.skip_ca15 = False
-boostana.facJEC = factorizedJetCorrections
-sequence.insert(sequence.index(VHbb),boostana)
+#A boostana.GT = "Summer16_23Sep2016GV3_DATA" # we do L2L3 for MC and L2L3Res for data. Can therefor use data GT for both
+#A boostana.jecPath = os.environ['CMSSW_BASE']+"/src/VHbbAnalysis/Heppy/data/jec"
+#A boostana.isMC = sample.isMC
+#A boostana.skip_ca15 = False
+#A boostana.facJEC = factorizedJetCorrections
+#A sequence.insert(sequence.index(VHbb),boostana)
 
 #used freshly computed MVA ID variables
 LepAna.updateEleMVA = True
@@ -49,15 +49,16 @@ genhfana=cfg.Analyzer(
 sequence.insert(sequence.index(VHbb),genhfana)
 
 
-treeProducer.collections["ak08"] = NTupleCollection("FatjetAK08ungroomed",  ak8FatjetType,  10,
-                                                    help = "AK, R=0.8, pT > 200 GeV, no grooming, calibrated")
+#A treeProducer.collections["ak08"] = NTupleCollection("FatjetAK08ungroomed",  ak8FatjetType,  10,
+#A                                                     help = "AK, R=0.8, pT > 200 GeV, no grooming, calibrated")
 
-treeProducer.collections["ak08softdropsubjets"] = NTupleCollection("SubjetAK08softdrop",
-                                                                 patSubjetType,
-                                                                 10,
-                                                                 help="Subjets of AK, R=0.8 softdrop")
+#A treeProducer.collections["ak08softdropsubjets"] = NTupleCollection("SubjetAK08softdrop",
+#A                                                                  patSubjetType,
+#A                                                                  10,
+#A                                                                  help="Subjets of AK, R=0.8 softdrop")
 
-if not boostana.skip_ca15:
+if False :
+#A if not boostana.skip_ca15:
     treeProducer.collections["ca15ungroomed"] = NTupleCollection("FatjetCA15ungroomed",  fatjetType,  10,
                                                                  help = "CA, R=1.5, pT > 200 GeV, no grooming")
 
