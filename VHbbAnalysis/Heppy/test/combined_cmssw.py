@@ -29,14 +29,16 @@ from PhysicsTools.SelectorUtils.tools.vid_id_tools import *
 def initialize(**kwargs):
     #isMC = kwargs.get("isMC", True)
     isMC = kwargs.get("isMC", False)
+    jetFormat = kwargs.get("jetFormat", "RECO")
+    jetFormat = "PAT"
     lumisToProcess = kwargs.get("lumisToProcess", None)
 
     process = cms.Process("EX")
     if lumisToProcess == None:
         process.source = cms.Source("PoolSource",
             #fileNames = cms.untracked.vstring("file:///scratch/gregor/TTJets_MSDecaysCKM_central_Tune4C_13TeV_MiniAOD.root")
-             fileNames = cms.untracked.vstring("file:///uscms/home/duong/Scratch/TestData/00993A51-DF90-E611-A4EE-7845C4FC3650_DoubleMuon_G_Sep_rereco.root")
-            #fileNames = cms.untracked.vstring("file:///uscms_data/d2/godshalk/2017-03_Ntuple2016V25/CMSSW_8_0_25/src/VHbbAnalysis/Heppy/test/FEB_REMINIAOD_DOUBLEMU_G_FILE.root")
+            #fileNames = cms.untracked.vstring("file:///uscms/home/duong/Scratch/TestData/00993A51-DF90-E611-A4EE-7845C4FC3650_DoubleMuon_G_Sep_rereco.root")
+            fileNames = cms.untracked.vstring("file:///uscms_data/d2/godshalk/2017-03_Ntuple2016V25/CMSSW_8_0_25/src/VHbbAnalysis/Heppy/test/FEB_REMINIAOD_DOUBLEMU_G_FILE.root")
         )
     else:
         process.source = cms.Source("PoolSource",
@@ -64,7 +66,8 @@ def initialize(**kwargs):
 #    process.GlobalTag = GlobalTag(process.GlobalTag, '76X_mcRun2_asymptotic_RunIIFall15DR76_v1')
     process.load("RecoJets.JetProducers.PileupJetID_cfi")
     process.pileupJetIdUpdated = process.pileupJetId.clone(
-    jets=cms.InputTag("slimmedJets"),
+      #jets=cms.InputTag("slimmedJets"),
+      jets=cms.InputTag("slimmedJets","",jetFormat),
       inputIsCorrected=True,
       applyJec=False,
       vertexes=cms.InputTag("offlineSlimmedPrimaryVertices")
@@ -100,7 +103,8 @@ def initialize(**kwargs):
     if isMC:
         process.OUT.outputCommands.append("keep *_slimmedJetsAK8_*_PAT")
     else:
-        process.OUT.outputCommands.append("keep *_slimmedJetsAK8_*_RECO")
+        process.OUT.outputCommands.append("keep *_slimmedJetsAK8_*_{}".format(jetFormat))
+        #process.OUT.outputCommands.append("keep *_slimmedJetsAK8_*_RECO")
 
     if not skip_ca15:
         # CA, R=1.5, pT > 200 GeV
@@ -731,7 +735,8 @@ def initialize(**kwargs):
     from PhysicsTools.PatAlgos.tools.jetTools import updateJetCollection
     updateJetCollection(
       process,
-      jetSource = cms.InputTag('slimmedJets','','PAT') if isMC else  cms.InputTag('slimmedJets','','RECO'),
+      #jetSource = cms.InputTag('slimmedJets','','PAT') if isMC else  cms.InputTag('slimmedJets','','RECO'),
+      jetSource = cms.InputTag('slimmedJets','','PAT') if isMC else  cms.InputTag('slimmedJets','',jetFormat),
       jetCorrections = ('AK4PFchs', cms.vstring(['L1FastJet', 'L2Relative', 'L3Absolute']), 'None'),
       btagDiscriminators = ['pfNegativeCombinedInclusiveSecondaryVertexV2BJetTags', 'pfCombinedSecondaryVertexV2BJetTags', 'deepFlavourCMVAJetTags:probudsg','deepFlavourCMVAJetTags:probb', 'deepFlavourCMVAJetTags:probc', 'deepFlavourCMVAJetTags:probbb', 'deepFlavourCMVAJetTags:probcc','deepFlavourJetTags:probudsg', 'deepFlavourJetTags:probb', 'deepFlavourJetTags:probc', 'deepFlavourJetTags:probbb', 'deepFlavourJetTags:probcc'],
       btagInfos = ['pfImpactParameterTagInfos','pfInclusiveSecondaryVertexFinderTagInfos','pfSecondaryVertexTagInfos'],

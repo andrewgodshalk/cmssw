@@ -18,10 +18,11 @@ sample.files=[
     #"root://131.169.191.218:1094//store/data/Run2016B/SingleMuon//MINIAOD/PromptReco-v2/000/273/537/00000/6EDA3436-A91F-E611-83EA-02163E014736.root"
     #"root://cmsxrootd.fnal.gov///store/data/Run2016G/DoubleMuon/MINIAOD/03Feb2017-v1/100000/0487E399-5FEB-E611-ABF2-B499BAA6776E.root",
     #"file:///uscms/home/duong/Scratch/TestData/00993A51-DF90-E611-A4EE-7845C4FC3650_DoubleMuon_G_Sep_rereco.root",
-    "FEB_REMINIAOD_DOUBLEMU_G_FILE.root",
+    "file:///uscms_data/d2/godshalk/2017-03_Ntuple2016V25/CMSSW_8_0_25/src/VHbbAnalysis/Heppy/test/FEB_REMINIAOD_DOUBLEMU_G_FILE.root",
     ]
 
-TriggerObjectsAna.triggerObjectInputTag = ('selectedPatTrigger','','RECO')
+#TriggerObjectsAna.triggerObjectInputTag = ('selectedPatTrigger','','RECO') # Commented for Feb2017 ReReco
+TriggerObjectsAna.triggerObjectInputTag = ('selectedPatTrigger','','PAT')
 FlagsAna.processName='RECO'
 TrigAna.triggerBits = triggerTableData
 L1TriggerAna.processName = 'RECO'
