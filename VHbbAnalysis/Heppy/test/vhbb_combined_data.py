@@ -17,8 +17,8 @@ sample.files=[
     #"root://cms-xrd-global.cern.ch//store/data/Run2016B/SingleMuon/MINIAOD/23Sep2016-v1/70000/3AB8DCD4-7387-E611-B30C-0025904CF766.root"
     #"root://131.169.191.218:1094//store/data/Run2016B/SingleMuon//MINIAOD/PromptReco-v2/000/273/537/00000/6EDA3436-A91F-E611-83EA-02163E014736.root"
     #"root://cmsxrootd.fnal.gov///store/data/Run2016G/DoubleMuon/MINIAOD/03Feb2017-v1/100000/0487E399-5FEB-E611-ABF2-B499BAA6776E.root",
-    #"file:///uscms/home/duong/Scratch/TestData/00993A51-DF90-E611-A4EE-7845C4FC3650_DoubleMuon_G_Sep_rereco.root",
-    "FEB_REMINIAOD_DOUBLEMU_G_FILE.root",
+    "file:///uscms/home/duong/Scratch/TestData/00993A51-DF90-E611-A4EE-7845C4FC3650_DoubleMuon_G_Sep_rereco.root",
+    #"FEB_REMINIAOD_DOUBLEMU_G_FILE.root",
     ]
 
 TriggerObjectsAna.triggerObjectInputTag = ('selectedPatTrigger','','RECO')

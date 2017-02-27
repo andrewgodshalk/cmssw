@@ -13,6 +13,10 @@
 # Directions for comparing JSON: https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideGoodLumiSectionsJSONFile#How_to_compare_Good_Luminosity_f
 # Directions for using Brilcalc to calculate integrated luminosity from a json file.
 #   http://cms-service-lumi.web.cern.ch/cms-service-lumi/brilwsdoc.html 
+#
+# 2017-02-27 - Updated to reflect ReReco JSONs and recalculated luminosities.
+# See hypernews post about updates: https://hypernews.cern.ch/HyperNews/CMS/get/physics-announcements/4495.html
+#
 #------------------------------------------------------------------------------
 
 from os import system
@@ -22,7 +26,8 @@ from sys import argv
 # STEP 1: Combine crab results json with golden JSON.
 
 # Golden JSON file: copied from https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideGoodLumiSectionsJSONFile
-fn_goldenJSON = "Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt"
+#fn_goldenJSON = "Cert_271036-284044_13TeV_PromptReco_Collisions16_JSON.txt"
+fn_goldenJSON = "Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON.txt"
 
 # Get file name from end of input
 input_path = argv[1]
@@ -38,6 +43,7 @@ system("compareJSON.py --and {} {} {}/{}".format(fn_goldenJSON, input_path, merg
 #----------------------------------------------------------
 # STEP 2: Use Brilcalc to get a report on the integrated luminosity
 
-system("brilcalc lumi --normtag /afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json -i {}/{} -u /pb > {}/{}".format(merge_path, fn, brilcalc_result_path, fn.split('.')[0]+'.txt'))
+#system("brilcalc lumi --normtag /afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json -i {}/{} -u /pb > {}/{}".format(merge_path, fn, brilcalc_result_path, fn.split('.')[0]+'.txt'))
+system("brilcalc lumi -b \"STABLE BEAMS\" --normtag /afs/cern.ch/user/l/lumipro/public/Normtags/normtag_DATACERT.json -i {}/{} -u /pb > {}/{}".format(merge_path, fn, brilcalc_result_path, fn.split('.')[0]+'.txt'))
 
 
